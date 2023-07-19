@@ -1,0 +1,75 @@
+/* Estilos generales del formulario */
+.form-container {
+    /* display: flex; */
+    /* justify-content: space-between; */
+    width: 950px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos para cada columna */
+.column {
+    flex: 1;
+    margin-right: 20px;
+    /* Ajusta el espaciado entre las columnas */
+}
+
+/* Estilos para los campos */
+.form-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-field label {
+    width: 150px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.form-field input,
+.form-field select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-field .error {
+    color: red;
+    font-size: 14px;
+}
+
+/* Estilos para los botones */
+.form-button {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-button button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-button button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el contenedor de los radio buttons */
+.radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.radio-container label {
+    margin-right: 15px;
+    /* Ajusta el valor según el espaciado que desees */
+}
