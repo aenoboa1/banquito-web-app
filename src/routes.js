@@ -44,6 +44,7 @@ import SimuladorPrestamos from "./pages/simulador-prestamos";
 import Transferencias from "pages/transacciones-transferencias";
 import SignIn from "./pages/login/sign-in";
 import SignUp from "./pages/login/sign-up";
+import TransactionsDetail from "./pages/cuentas-movimientos/account-details";
 
 const routes = [
     {
@@ -82,6 +83,10 @@ const routes = [
         icon: <PointOfSale size="12px"/>,
         component: <Transferencias/>,
         noCollapse: true,
+    },
+    {
+        route: "/cuentas/detail",
+        component: <TransactionsDetail/>,
     },
     {
         route: "/authentication/sign-in",
