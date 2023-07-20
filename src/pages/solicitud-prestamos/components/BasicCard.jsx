@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
 import '../css/styles.css';
-import { TextField } from '@mui/material';
 
 const bull = (
 	<Box
@@ -142,6 +141,7 @@ export default function BasicCard() {
 								<ErrorMessage name="apellido" component="div" className="error" />
 							</div>
 							<div className="form-field">
+
 								<label htmlFor="tipoDocumento">Tipo de documento:</label>
 								<Field as="select" id="tipoDocumento" name="tipoDocumento">
 									<option value="">Seleccionar</option>

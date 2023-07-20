@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Divider, Breadcrumbs, Typography} from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Button, Divider, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {AccountProductService} from "../service/AccountProductService";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import SoftBox from "../../../components/SoftBox";
 import SoftButton from "../../../components/SoftButton";
-import {AccountBalanceWallet, FolderDelete} from "@mui/icons-material";
-import Icon from "../../../assets/theme/components/icon";
+import {AccountBalanceWallet} from "@mui/icons-material";
 import SoftTypography from "../../../components/SoftTypography";
 
 export const AccountProduct = () => {
@@ -115,7 +114,7 @@ export const AccountProduct = () => {
                                         navigate('detail', {state: product})
                                     }
                                     variant={"gradient"}
-                                    color={"dark"}
+                                    color={"primary"}
 
 
                         >

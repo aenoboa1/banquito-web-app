@@ -39,7 +39,7 @@
 import Movimientos from "pages/cuentas-movimientos";
 import CreditCard from "examples/Icons/CreditCard";
 import Prestamos from "./pages/solicitud-prestamos";
-import {Money, PointOfSale} from "@mui/icons-material";
+import {Money, PointOfSale, Portrait} from "@mui/icons-material";
 import SimuladorPrestamos from "./pages/simulador-prestamos";
 import Transferencias from "pages/transacciones-transferencias";
 import SignIn from "./pages/login/sign-in";
@@ -74,7 +74,6 @@ const routes = [
         component: <SimuladorPrestamos/>,
         noCollapse: true,
     },
-
     {
         type: "collapse",
         name: "Transacciones",
@@ -84,6 +83,16 @@ const routes = [
         component: <Transferencias/>,
         noCollapse: true,
     },
+    {
+        type: "collapse",
+        name: "Mi Perfil",
+        key: "profile",
+        route: "/profile",
+        icon: <Portrait size="12px"/>,
+        component: <Transferencias/>,
+        noCollapse: true,
+    },
+
     {
         route: "/cuentas/detail",
         component: <TransactionsDetail/>,
