@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import '../css/styles.css';
-import { TextField } from '@mui/material';
+import { GuarantorModal } from './GuarantorModal';
+import { GuaranteeModal } from './GuaranteeModal';
+import { InterestAccrual } from './InterestAccrual';
 
-const bull = (
-	<Box
-		component="span"
-		sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-	>
-	</Box>
-);
 
 export default function BasicCard() {
 
@@ -19,8 +13,34 @@ export default function BasicCard() {
 	const tiposPrestamo = ['Personal', 'Crédito'];
 	const tiposPeriodoGracia = ['interes', 'completo', 'parcial'];
 
+	const [modalOpen1, setModalOpen1] = useState(false);
+	const [modalOpen2, setModalOpen2] = useState(false);
+	const [modalOpen3, setModalOpen3] = useState(false);
+
 	const handleChange = (event) => {
 		setSelectedValue(event.target.value);
+	};
+
+	const handleOpenModal = () => {
+		setModalOpen1(true);
+	};
+
+	const handleCloseModal = () => {
+		setModalOpen1(false);
+	};
+	const handleOpenModal2 = () => {
+		setModalOpen2(true);
+	};
+
+	const handleCloseModal2 = () => {
+		setModalOpen2(false);
+	};
+	const handleOpenModal3 = () => {
+		setModalOpen3(true);
+	};
+
+	const handleCloseModal3 = () => {
+		setModalOpen3(false);
 	};
 
 	// Inicializa el estado inicial de los valores del formulario
@@ -93,6 +113,28 @@ export default function BasicCard() {
 				} else if (!/^\d+(\.\d{1,2})?$/.test(valores.monto)) {
 					errores.comisionMensual = 'La comisión mensual debe ser un número válido';
 				}
+				//validación tipoCliente
+				if (!valores.tipoCliente) {
+					errores.tipoCliente = 'Debes seleccionar un tipo de cliente';
+				}
+				// Validación tasaInteres
+				if (!valores.tasaInteres) {
+					errores.tasaInteres = 'Por favor ingresa una tasa de interés';
+				} else if (!/^\d+(\.\d{1,2})?$/.test(valores.monto)) {
+					errores.tasaInteres = 'La tasa de interés debe ser un número válido';
+				}
+				// Validación tipoDocumento
+				if (!valores.tipoDocumento) {
+					errores.tipoDocumento = 'Debes seleccionar un tipo de documento';
+				}
+				// Validación tipoPrestamo
+				if (!valores.tipoPrestamo) {
+					errores.tipoPrestamo = 'Debes seleccionar un tipo de documento';
+				}
+				// Validación tipoPeriodoGracia
+				if (!valores.tipoPeriodoGracia) {
+					errores.tipoPeriodoGracia = 'Debes seleccionar un tipo de documento';
+				}
 				return errores;
 			}}
 			onSubmit={handleSubmit}
@@ -101,13 +143,13 @@ export default function BasicCard() {
 				<Form className="form-container" >
 					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 						{/* Columna 1 */}
-						<div>
+						<div style={{ backgroundColor: '#ddd', width: '500px' }}>
 							<div className="radio-container">
 								<label htmlFor="nombre" style={{ fontWeight: 'bold' }}>Tipo:</label>
 								<Field
 									type="radio"
 									name="tipoCliente"
-									value="nat"
+									value="natural"
 									style={{ marginLeft: '30%' }}
 								/>
 								<label style={{ marginLeft: '5%', fontSize: '16px' }}>Natural</label>
@@ -115,9 +157,13 @@ export default function BasicCard() {
 								<Field
 									type="radio"
 									name="tipoCliente"
-									value="jur"
+									value="jurídico"
 								/>
 								<label style={{ marginLeft: '5%', fontSize: '16px' }}>Jurídico</label>
+								<div className="form-field">
+									<ErrorMessage name="tipoCliente" component="div" className="error" />
+								</div>
+
 							</div>
 							<div className="form-field">
 								<label htmlFor="nombre">Nombre:</label>
@@ -125,7 +171,6 @@ export default function BasicCard() {
 									type="text"
 									id="nombre"
 									name="nombre"
-									// as={TextField}
 									onChange={handleChange}
 									value={values.nombre}
 								/>
@@ -179,7 +224,7 @@ export default function BasicCard() {
 						</div>
 
 						{/* Columna 2 */}
-						<div>
+						<div style={{ backgroundColor: '#ccc', width: '500px' }}>
 							<div className="form-field">
 								<label htmlFor="tipoPrestamo">Tipo de préstamo:</label>
 								<Field as="select" id="tipoPrestamo" name="tipoPrestamo">
@@ -235,12 +280,34 @@ export default function BasicCard() {
 					</div>
 					<div className="form-button">
 						<button
+							type="button"
+							style={{ backgroundColor: '#212529', marginRight: '8rem', fontSize: '12px', fontWeight: 'bold' }}
+							onClick={handleOpenModal}
+						>
+							Agregar Garante
+						</button>
+						{modalOpen1 && <GuarantorModal onClose={handleCloseModal} />}
+						<button
+							type="button"
+							style={{ backgroundColor: '#212529', fontSize: '12px', fontWeight: 'bold' }}
+							onClick={handleOpenModal3}
+						>
+							Acumulación de intereses
+						</button>
+						{modalOpen3 && <InterestAccrual onClose={handleCloseModal3} />}
+						<button
+							type="button"
+							style={{ backgroundColor: '#212529', marginLeft: '10rem', fontSize: '12px', fontWeight: 'bold' }}
+							onClick={handleOpenModal2}
+						>
+							Agregar Garantía
+						</button>
+						{modalOpen2 && <GuaranteeModal onClose={handleCloseModal2} />}
+					</div>
+					<div className="form-button">
+						<button
 							type="submit"
-							style={{
-								// marginBottom: '10px',
-								// marginLeft: '12rem',
-								backgroundColor: '#810000'
-							}}>
+							style={{ backgroundColor: '#810000', marginLeft: '-20px', fontSize: '12px', fontWeight: 'bold' }}>
 							Generar Solicitud
 						</button>
 					</div>
