@@ -42,13 +42,13 @@ const BasicCard = () => {
 		if (!valores.nombres) {
 			errores.nombres = 'Los nombres son requeridos'
 		} else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.nombres)) {
-			errores.nombres = 'El nombre solo puede contener letras y espacios'
+			errores.nombres = 'El nombre solo puede contener letras y espacios.'
 		}
 		// Validacion apellido
 		if (!valores.apellidos) {
 			errores.apellidos = 'Los apellidos son requeridos'
 		} else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.apellidos)) {
-			errores.apellidos = 'El apellido solo puede contener letras y espacios'
+			errores.apellidos = 'El apellido solo puede contener letras y espacios.'
 		}
 		// Validacion correo
 		if (!valores.email) {
