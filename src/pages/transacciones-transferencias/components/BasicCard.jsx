@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Card, CardContent, Typography, TextField, Divider, Button, Box } from '@mui/material';
+import { Card, CardContent, Typography, Divider, Box } from '@mui/material';
 import '../css/styles.css';
 
 const BasicCard = () => {
@@ -88,7 +88,6 @@ const BasicCard = () => {
 						<ErrorMessage name="monto" component={() => (<div className="error" >
 							{errors.monto}</div>)} />
 					</div>
-					{/* </Box> */}
 
 					<Box display="flex" justifyContent="center" my={2}>
 						<Card sx={{ minWidth: 300 }}>
