@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, {createContext, useContext, useEffect, useState} from 'react'
 
 
 export const stateContext = createContext();
@@ -23,6 +23,7 @@ export default function useStateContext() {
     };
 }
 
+// eslint-disable-next-line react/prop-types
 export function ContextProvider({ children }) {
     const [context, setContext] = useState(getFreshContext())
 

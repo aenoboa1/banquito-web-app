@@ -45,6 +45,7 @@ import Transferencias from "pages/transacciones-transferencias";
 import SignIn from "./pages/login/sign-in";
 import SignUp from "./pages/login/sign-up";
 import TransactionsDetail from "./pages/cuentas-movimientos/account-details";
+import MyProfile from "./pages/mi-perfil";
 
 const routes = [
     {
@@ -89,7 +90,7 @@ const routes = [
         key: "profile",
         route: "/profile",
         icon: <Portrait size="12px"/>,
-        component: <Transferencias/>,
+        component: <MyProfile/>,
         noCollapse: true,
     },
 
