@@ -28,6 +28,8 @@ export default function BasicCard() {
 				<Typography sx={{ mb: 1.5 }} color="text.secondary">
 					adjective
 				</Typography>
+
+
 				<Typography variant="body2">
 					well meaning and kindly.
 					<br />

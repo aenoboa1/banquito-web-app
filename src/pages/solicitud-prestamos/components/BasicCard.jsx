@@ -143,7 +143,7 @@ export default function BasicCard() {
 				<Form className="form-container" >
 					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 						{/* Columna 1 */}
-						<div style={{ backgroundColor: '#ddd', width: '500px' }}>
+						<div style={{ width: '500px' }}>
 							<div className="radio-container">
 								<label htmlFor="nombre" style={{ fontWeight: 'bold' }}>Tipo:</label>
 								<Field
@@ -187,6 +187,7 @@ export default function BasicCard() {
 								<ErrorMessage name="apellido" component="div" className="error" />
 							</div>
 							<div className="form-field">
+
 								<label htmlFor="tipoDocumento">Tipo de documento:</label>
 								<Field as="select" id="tipoDocumento" name="tipoDocumento">
 									<option value="">Seleccionar</option>
@@ -224,7 +225,7 @@ export default function BasicCard() {
 						</div>
 
 						{/* Columna 2 */}
-						<div style={{ backgroundColor: '#ccc', width: '500px' }}>
+						<div style={{ width: '500px' }}>
 							<div className="form-field">
 								<label htmlFor="tipoPrestamo">Tipo de préstamo:</label>
 								<Field as="select" id="tipoPrestamo" name="tipoPrestamo">
