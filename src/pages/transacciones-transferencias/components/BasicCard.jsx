@@ -57,6 +57,7 @@ const BasicCard = () => {
 			errores.email = 'El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.'
 		}
 
+		
 		return errores;
 	};
 
