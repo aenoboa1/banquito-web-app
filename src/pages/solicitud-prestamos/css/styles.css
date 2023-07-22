@@ -2,7 +2,7 @@
 .form-container {
     /* display: flex; */
     /* justify-content: space-between; */
-    width: 950px;
+    width: 1000px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -36,6 +36,7 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    max-width: 30%;
 }
 
 .form-field .error {
@@ -67,6 +68,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 5px;
+    margin-right: 8rem;
 }
 
 .radio-container label {
