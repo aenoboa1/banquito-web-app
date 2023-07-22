@@ -2,11 +2,15 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Card, CardContent, Typography, Divider, Box } from '@mui/material';
 import '../css/styles.css';
+import { useNavigate } from 'react-router-dom';
 
 const BasicCard = () => {
+	const navigate = useNavigate();
 	// Función de manejo de envío del formulario
 	const handleSubmit = (values) => {
+		
 		// Aquí puedes agregar la lógica para enviar los datos del formulario
+		navigate('/transferenciasConfirm');
 		console.log(values);
 	};
 
@@ -77,7 +81,7 @@ const BasicCard = () => {
 			{({ errors, values, handleChange }) => (
 				<Form className="formulario">
 					<div style={{ marginLeft: '16rem' }}>
-						<label htmlFor="nombre">Monto</label>
+						<label htmlFor="nombre">Monto a transferir $</label>
 						<Field
 							type="text"
 							name="monto"
@@ -116,7 +120,7 @@ const BasicCard = () => {
 							onChange={handleChange}
 							value={values.nombres}
 							sx={{ mb: 2 }}
-							style={{ marginLeft: '17%' }}
+							style={{ marginLeft: '17%', width: '300px' }}
 						/>
 						<ErrorMessage name="nombres" component={() => (<div className="error" >
 							{errors.nombres}</div>)} />
@@ -130,7 +134,7 @@ const BasicCard = () => {
 							onChange={handleChange}
 							value={values.apellidos}
 							sx={{ mb: 2 }}
-							style={{ marginLeft: '16.8%' }}
+							style={{ marginLeft: '16.8%' ,width: '300px'}}
 						/>
 						<ErrorMessage name="apellidos" component={() => (<div className="error" >
 							{errors.apellidos}</div>)} />
@@ -144,7 +148,7 @@ const BasicCard = () => {
 							onChange={handleChange}
 							value={values.email}
 							sx={{ mb: 2 }}
-							style={{ marginLeft: '21%' }}
+							style={{ marginLeft: '20.3%' , width: '300px'}}
 						/>
 						<ErrorMessage name="email" component={() => (<div className="error" >
 							{errors.email}</div>)} />
@@ -159,7 +163,7 @@ const BasicCard = () => {
 							inputProps={{ maxLength: 10 }}
 							value={values.cedula}
 							sx={{ mb: 2 }}
-							style={{ marginLeft: '19.5%' }}
+							style={{ marginLeft: '18.7%', width: '300px' }}
 						/>
 						<ErrorMessage name="cedula" component={() => (<div className="error" >
 							{errors.cedula}</div>)} />
@@ -174,7 +178,7 @@ const BasicCard = () => {
 							inputProps={{ maxLength: 10 }}
 							value={values.cuenta}
 							sx={{ mb: 2 }}
-							style={{ marginLeft: '7.7%' }}
+							style={{ marginLeft: '7.7%' ,width: '300px' }}
 						/>
 						<ErrorMessage name="cuenta" component={() => (<div className="error" >
 							{errors.cuenta}</div>)} />
@@ -183,7 +187,7 @@ const BasicCard = () => {
 						<button
 							type="submit"
 							style={{ backgroundColor: '#810000', marginLeft: '-20px', fontSize: '12px', fontWeight: 'bold' }}>
-							Guardar
+							Confirmar
 						</button>
 					</div>
 				</Form>

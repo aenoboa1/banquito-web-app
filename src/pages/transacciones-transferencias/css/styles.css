@@ -78,3 +78,18 @@
     margin-top: 20px;
     text-align: center;
 }
+.contenedor {
+	min-height: 100vh;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+.formulario {
+	min-width: 600px;
+	margin-top: 20px;
+	background: #fff;
+	border-radius: 5px;
+	padding: 20px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
