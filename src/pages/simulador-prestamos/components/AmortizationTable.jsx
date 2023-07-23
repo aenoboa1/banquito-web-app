@@ -10,34 +10,89 @@ import { Box } from "@mui/material";
 import Grid from '@mui/material/Grid';
 
 function AmortizationTable({ loan, nper, rate }) {
+
+let use="";
+let equi="";
+let camb="";
+let balan="";
+let inte="";
+  
+if(rate==="Francesa"){
+  use='Francesa';
+  rate=1.5;
+}else
+{
+  rate=1.25;
+}
+
+
+let rows = [{ period: 0, payment: 0, interest: 0, principal: 0, balance: loan }];
+
   let payment = "";
   if (loan && nper && rate !== "") {
+    if(use==="Francesa"){
+
     payment = (loan * rate) / 100 / (1 - (1 + rate / 100) ** -nper);
+    
+    if (loan && nper && rate !== "") {
+      for (let period = 1; period <= nper; period++) {
+        rows.push({
+          period: period,
+          payment: payment,
+          interest:
+            ((loan * (1 + rate / 100) ** (period - 1) -
+              (payment * ((1 + rate / 100) ** (period - 1) - 1)) / (rate / 100)) *
+              rate) /
+            100,
+          principal:
+            payment -
+            ((loan * (1 + rate / 100) ** (period - 1) -
+              (payment * ((1 + rate / 100) ** (period - 1) - 1)) / (rate / 100)) *
+              rate) /
+            100,
+          balance:
+            loan * (1 + rate / 100) ** period -
+            (payment * ((1 + rate / 100) ** period - 1)) / (rate / 100),
+        });
+      }
+    }
+  
+    }else{
+      equi =loan/nper;
+      camb=rate;
+      inte=(loan*camb)/100;
+      payment = equi+inte;
+     
+     
+      if (loan && nper && rate !== "") {
+        for (let period = 1; period <= nper; period++) {
+          rows.push({
+            period: period,
+            payment: payment,
+            interest: (loan*camb)/100,
+              
+            principal:equi,
+            balance: loan-equi,
+          
+
+          });
+          balan=loan-equi;
+        loan=balan;
+        inte=(loan*camb)/100;
+
+        payment = equi+inte;
+     
+
+        }
+      }
+    }
+
+
+
   }
 
-  let rows = [{ period: 0, payment: 0, interest: 0, principal: 0, balance: loan }];
-  if (loan && nper && rate !== "") {
-    for (let period = 1; period <= nper; period++) {
-      rows.push({
-        period: period,
-        payment: payment,
-        interest:
-          ((loan * (1 + rate / 100) ** (period - 1) -
-            (payment * ((1 + rate / 100) ** (period - 1) - 1)) / (rate / 100)) *
-            rate) /
-          100,
-        principal:
-          payment -
-          ((loan * (1 + rate / 100) ** (period - 1) -
-            (payment * ((1 + rate / 100) ** (period - 1) - 1)) / (rate / 100)) *
-            rate) /
-          100,
-        balance:
-          loan * (1 + rate / 100) ** period -
-          (payment * ((1 + rate / 100) ** period - 1)) / (rate / 100),
-      });
-    }
-  }
+
+
 
   let formatter = new Intl.NumberFormat('en', {
     style: 'currency',
