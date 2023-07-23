@@ -13,6 +13,7 @@
   },
   "plugins": ["react", "react-hooks", "import", "prettier"],
   "rules": {
+    "react/prop-types": ["off"], 
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/require-default-props": "off",
     "no-param-reassign": "off",

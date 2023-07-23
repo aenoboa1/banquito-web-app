@@ -45,6 +45,7 @@ import Transferencias from "pages/transacciones-transferencias";
 import SignIn from "./pages/login/sign-in";
 import SignUp from "./pages/login/sign-up";
 import TransactionsDetail from "./pages/cuentas-movimientos/account-details";
+import { ConfirmTransfer } from "pages/transacciones-transferencias/components/ConfirmTransfer";
 
 const routes = [
     {
@@ -104,7 +105,12 @@ const routes = [
     {
         route: "/authentication/sign-up",
         component: <SignUp/>,
-    }
+    },
+    {
+        route: '/transferenciasConfirm',
+        component: <ConfirmTransfer/>,
+    },
+
 
 
 ];
