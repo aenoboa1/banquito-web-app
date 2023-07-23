@@ -40,19 +40,24 @@
 }
 
 .form-field .error {
+    flex: 1;
+    flex-direction: row;
     color: red;
     font-size: 14px;
+    margin-left: '5px';
 }
 
 /* Estilos para los botones */
 .form-button {
+    flex: 1;
+    flex-direction: row;
     margin-top: 20px;
     text-align: center;
 }
 
 .form-button button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #212529;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -60,7 +65,8 @@
 }
 
 .form-button button:hover {
-    background-color: #0056b3;
+    background-color: #232527;
+    color: #fff;
 }
 
 /* Estilos para el contenedor de los radio buttons */
@@ -72,6 +78,6 @@
 }
 
 .radio-container label {
-    margin-right: 15px;
+    margin-right: 5px;
     /* Ajusta el valor según el espaciado que desees */
 }

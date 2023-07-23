@@ -1,40 +1,71 @@
 import { Box, Button, Divider, Grid, Modal, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 export const GuaranteeModal = ({ onClose }) => {
-
-    const [codigo, setCodigo] = useState('');
-    const [tipo, setTipo] = useState('');
-    const [divisa, setDivisa] = useState('');
-    const [monto, setMonto] = useState('');
 
     GuaranteeModal.propTypes = {
         onClose: PropTypes.func.isRequired,
     };
 
-    const handleGuardar = () => {
-        // Aquí puedes realizar la lógica para guardar los valores ingresados
-        console.log('Código:', codigo);
-        console.log('Tipo:', tipo);
-        console.log('monto:', monto);
-        console.log('Divisa:', divisa);
-        // Cerrar el modal
-        onClose();
-    };
+    const tiposDivisa = [
+        { key: 'EUR', value: 'EURO' },
+        { key: 'USD', value: 'US DOLLAR' },
+    ];
+    const tiposGarante = [
+        { key: 'CUS', value: 'CLIENTE' },
+        { key: 'GCU', value: 'GRUPO' },
+        { key: 'GCO', value: 'COMPAÑIA' },
+    ];
 
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 500,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         borderRadius: '5%',
         boxShadow: 24,
         p: 4,
         fontStyle: 'italic',
+    };
+
+    const initialValues = {
+        divisa: '',
+        tipoDocumento: '',
+        codigo: '',
+        monto: ''
+    };
+
+    const validateForm = (valores) => {
+        let errores = {};
+        // Validación codigo
+        if (!valores.codigo) {
+            errores.codigo = 'Por favor ingresa el código';
+        }
+        // Validacion nombre
+        if (!valores.divisa) {
+            errores.divisa = 'Debes seleccionar una divisa';
+        }
+        // Validación tipoDocumento
+        if (!valores.tipoDocumento) {
+            errores.tipoDocumento = 'Debes seleccionar un tipo';
+        }
+        // Validación monto
+        if (!valores.monto) {
+            errores.monto = 'Por favor ingresa un monto';
+        } else if (!/^\d+(\.\d{1,2})?$/.test(valores.monto)) {
+            errores.monto = 'El monto debe ser un número válido';
+        }
+        return errores;
+    }
+
+    const handleSubmit = (values) => {
+        console.log(values);
+        onClose();
     };
     return (
         <Grid
@@ -43,97 +74,97 @@ export const GuaranteeModal = ({ onClose }) => {
             justifyContent="flex-start"
             alignItems="center"
         >
-            <div>
-                <Modal
-                    keepMounted
-                    open={true}
-                    onClose={onClose}
-                    aria-labelledby="keep-mounted-modal-title"
-                    aria-describedby="keep-mounted-modal-description"
-                >
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Modal
+                keepMounted
+                open={true}
+                onClose={onClose}
+                aria-labelledby="keep-mounted-modal-title"
+                aria-describedby="keep-mounted-modal-description"
+            >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-                        <Box sx={style}>
-                            <Typography sx={{ mb: 0.5, lineHeight: '2rem', }} color="text.secondary" align='center'
-                                fontSize={30}>
-                                <span style={{ fontWeight: 'bold' }}>Garante</span>
-                            </Typography>
-                            <Divider sx={{ backgroundColor: "#000" }} />
+                    <Box sx={style}>
+                        <Formik
+                            initialValues={initialValues}
+                            validate={validateForm}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ errors, values, handleChange }) => (
+                                <Form >
+                                    <Typography sx={{ mb: 0.5, lineHeight: '2rem', marginBottom: '1rem' }}
+                                        color="text.secondary"
+                                        align='center'
+                                        fontSize={30}
+                                    >
+                                        <span style={{ fontWeight: 'bold', }}>Garantía</span>
+                                    </Typography>
+                                    <div className="form-field">
+                                        <label htmlFor="monto">Monto:</label>
+                                        <Field
+                                            type="number"
+                                            id="monto"
+                                            name="monto"
+                                            onChange={handleChange}
+                                            value={values.monto}
+                                        />
+                                        <ErrorMessage name="monto" component="div" className="error" style={{ marginLeft: '1rem' }} />
+                                    </div>
+                                    <div className="form-field">
+                                        <label htmlFor="codigo">Código:</label>
+                                        <Field
+                                            type="text"
+                                            id="codigo"
+                                            name="codigo"
+                                            onChange={handleChange}
+                                            value={values.codigo}
+                                        />
+                                        <ErrorMessage name="codigo" component="div" className="error" style={{ marginLeft: '1rem' }} />
+                                    </div>
 
-                            <TextField
-                                label="Monto "
-                                value={monto}
-                                onChange={(e) => setMonto(e.target.value)}
-                                fullWidth
-                                sx={{ marginBottom: '1rem', }}
-                                InputLabelProps={{
-                                    sx: {
-                                        fontSize: '18px',
-                                        fontStyle: 'normal',
-                                        top: '-0.5rem',
-                                    },
-                                }}
-                            />
-                            <TextField
-                                label="Código "
-                                value={codigo}
-                                onChange={(e) => setCodigo(e.target.value)}
-                                fullWidth
-                                sx={{ marginBottom: '1rem' }}
-                                InputLabelProps={{
-                                    sx: {
-                                        fontSize: '18px',
-                                        fontStyle: 'normal',
-                                        top: '-0.5rem',
-                                    },
-                                }}
-                            />
-                            <TextField
-                                label="Tipo "
-                                value={tipo}
-                                onChange={(e) => setTipo(e.target.value)}
-                                fullWidth
-                                sx={{ marginBottom: '1rem' }}
-                                InputLabelProps={{
-                                    sx: {
-                                        fontSize: '18px',
-                                        fontStyle: 'normal',
-                                        top: '-0.5rem',
-                                    },
-                                }}
-                            />
-
-                            <TextField
-                                label="Divisa "
-                                value={divisa}
-                                onChange={(e) => setDivisa(e.target.value)}
-                                fullWidth
-                                sx={{ marginBottom: '1rem' }}
-                                InputLabelProps={{
-                                    sx: {
-                                        fontSize: '18px',
-                                        fontStyle: 'normal',
-                                        top: '-0.5rem',
-                                    },
-                                }}
-                            />
-
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                style={{
-                                    marginTop: '10px',
-                                    marginLeft: '3rem',
-                                    backgroundColor: '#00202E'
-                                }}
-                                onClick={handleGuardar}
-                            >
-                                GUARDAR
-                            </Button>
-                        </Box>
-                    </div>
-                </Modal>
-            </div>
-        </Grid>
+                                    <div className="form-field">
+                                        <label htmlFor="tipoDocumento">Tipo:</label>
+                                        <Field as="select" id="tipoDocumento" name="tipoDocumento">
+                                            <option value="">Seleccionar</option>
+                                            {tiposGarante.map((tipo) => (
+                                                <option key={tipo.key} value={tipo.value}>
+                                                    {tipo.value}
+                                                </option>
+                                            ))}
+                                        </Field>
+                                        <ErrorMessage name="tipoDocumento" component="div" className="error" style={{ marginLeft: '1rem' }} />
+                                    </div>
+                                    <div className="form-field">
+                                        <label htmlFor="divisa">Divisa:</label>
+                                        <Field as="select" id="divisa" name="divisa">
+                                            <option value="">Seleccionar</option>
+                                            {tiposDivisa.map((tipo) => (
+                                                <option key={tipo.key} value={tipo.value}>
+                                                    {tipo.value}
+                                                </option>
+                                            ))}
+                                        </Field>
+                                        <ErrorMessage name="divisa" component="div" className="error" style={{ marginLeft: '1rem' }} />
+                                    </div>
+                                    <div className="form-button">
+                                        <Button
+                                            type="submit"
+                                            style={{
+                                                backgroundColor: '#810000',
+                                                fontSize: '12px',
+                                                fontWeight: 'bold',
+                                                color: '#fff'
+                                            }}
+                                        >
+                                            Guardar
+                                        </Button>
+                                    </div>
+                                </Form>
+                            )
+                            }
+                        </Formik>
+                    </Box>
+                </div>
+            </Modal>
+        </Grid >
     )
 }
