@@ -10,9 +10,9 @@ export const GuarantorModal = ({ onClose }) => {
     };
 
     const tiposGarante = [
-        { key: 'CUS', value: 'CLIENTE' },
-        { key: 'GCU', value: 'GRUPO' },
-        { key: 'GCO', value: 'COMPAÑIA' },
+        { key: 'CUS', value: 'Cliente' },
+        { key: 'GCU', value: 'Grupo' },
+        { key: 'GCO', value: 'Compañia' },
     ];
 
     const style = {
@@ -20,13 +20,12 @@ export const GuarantorModal = ({ onClose }) => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 500,
+        width: 400,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         borderRadius: '5%',
         boxShadow: 24,
         p: 4,
-        fontStyle: 'italic',
     };
 
     const initialValues = {
@@ -80,7 +79,7 @@ export const GuarantorModal = ({ onClose }) => {
                             validate={validateForm}
                             onSubmit={handleSubmit}
                         >
-                            {({ errors, values, handleChange }) => (
+                            {({ values, handleChange }) => (
                                 <Form >
                                     <Typography sx={{ mb: 0.5, lineHeight: '2rem', marginBottom: '1rem' }}
                                         color="text.secondary"
@@ -89,41 +88,52 @@ export const GuarantorModal = ({ onClose }) => {
                                     >
                                         <span style={{ fontWeight: 'bold', }}>Garante</span>
                                     </Typography>
-                                    <div className="form-field">
-                                        <label htmlFor="codigo">Código:</label>
-                                        <Field
-                                            type="text"
-                                            id="codigo"
-                                            name="codigo"
-                                            onChange={handleChange}
-                                            value={values.codigo}
-                                        />
-                                        <ErrorMessage name="codigo" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
 
-                                    <div className="form-field">
-                                        <label htmlFor="tipoDocumento">Tipo:</label>
-                                        <Field as="select" id="tipoDocumento" name="tipoDocumento">
-                                            <option value="">Seleccionar</option>
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="codigo" as={TextField} label="Código" fullWidth
+                                            onChange={handleChange}
+                                            value={values.codigo} />
+                                        <ErrorMessage name="codigo" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                                        <Field as="select" id="tipoDocumento" name="tipoDocumento"
+                                            style={{
+                                                width: '20rem', fontFamily: 'Arial, sans-serif',
+                                                fontSize: '18px', textAlign: 'center',
+                                                height: '2rem'
+                                            }}
+                                        >
+                                            <option value="" style={{ marginLeft: '1rem' }}>
+                                                Seleccionar el tipo de garante</option>
                                             {tiposGarante.map((tipo) => (
                                                 <option key={tipo.key} value={tipo.value}>
                                                     {tipo.value}
                                                 </option>
                                             ))}
                                         </Field>
-                                        <ErrorMessage name="tipoDocumento" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
-                                    <div className="form-field">
-                                        <label htmlFor="nombre">Nombre:</label>
-                                        <Field
-                                            type="text"
-                                            id="nombre"
-                                            name="nombre"
+                                        <ErrorMessage name="tipoDocumento" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="nombre" as={TextField} label="Nombre" fullWidth
                                             onChange={handleChange}
-                                            value={values.nombre}
-                                        />
-                                        <ErrorMessage name="nombre" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
+                                            value={values.nombre} />
+                                        <ErrorMessage name="nombre" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
                                     <div className="form-button">
                                         <Button
                                             type="submit"

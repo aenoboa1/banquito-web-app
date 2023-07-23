@@ -24,13 +24,12 @@ export const GuaranteeModal = ({ onClose }) => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 500,
+        width: 385,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         borderRadius: '5%',
         boxShadow: 24,
         p: 4,
-        fontStyle: 'italic',
     };
 
     const initialValues = {
@@ -48,11 +47,11 @@ export const GuaranteeModal = ({ onClose }) => {
         }
         // Validacion nombre
         if (!valores.divisa) {
-            errores.divisa = 'Debes seleccionar una divisa';
+            errores.divisa = 'Debes seleccionar un tipo de divisa';
         }
         // Validación tipoDocumento
         if (!valores.tipoDocumento) {
-            errores.tipoDocumento = 'Debes seleccionar un tipo';
+            errores.tipoDocumento = 'Debes seleccionar un tipo de garante';
         }
         // Validación monto
         if (!valores.monto) {
@@ -98,53 +97,74 @@ export const GuaranteeModal = ({ onClose }) => {
                                     >
                                         <span style={{ fontWeight: 'bold', }}>Garantía</span>
                                     </Typography>
-                                    <div className="form-field">
-                                        <label htmlFor="monto">Monto:</label>
-                                        <Field
-                                            type="number"
-                                            id="monto"
-                                            name="monto"
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="monto" as={TextField} label="Monto" fullWidth
                                             onChange={handleChange}
-                                            value={values.monto}
-                                        />
-                                        <ErrorMessage name="monto" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
-                                    <div className="form-field">
-                                        <label htmlFor="codigo">Código:</label>
-                                        <Field
-                                            type="text"
-                                            id="codigo"
-                                            name="codigo"
-                                            onChange={handleChange}
-                                            value={values.codigo}
-                                        />
-                                        <ErrorMessage name="codigo" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
+                                            value={values.monto} type="number" />
+                                        <ErrorMessage name="monto" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
 
-                                    <div className="form-field">
-                                        <label htmlFor="tipoDocumento">Tipo:</label>
-                                        <Field as="select" id="tipoDocumento" name="tipoDocumento">
-                                            <option value="">Seleccionar</option>
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="codigo" as={TextField} label="Código" fullWidth
+                                            onChange={handleChange}
+                                            value={values.codigo} />
+                                        <ErrorMessage name="codigo" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                                        <Field as="select" id="tipoDocumento" name="tipoDocumento"
+                                            style={{
+                                                width: '20rem', fontFamily: 'Arial, sans-serif',
+                                                fontSize: '18px', textAlign: 'center',
+                                                height: '2rem'
+                                            }}
+                                        >
+                                            <option value="" style={{ marginLeft: '1rem' }}>
+                                                Seleccionar el tipo de garante</option>
                                             {tiposGarante.map((tipo) => (
                                                 <option key={tipo.key} value={tipo.value}>
                                                     {tipo.value}
                                                 </option>
                                             ))}
                                         </Field>
-                                        <ErrorMessage name="tipoDocumento" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
-                                    <div className="form-field">
-                                        <label htmlFor="divisa">Divisa:</label>
-                                        <Field as="select" id="divisa" name="divisa">
-                                            <option value="">Seleccionar</option>
+                                        <ErrorMessage name="tipoDocumento" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                                        <Field as="select" id="divisa" name="divisa"
+                                            style={{
+                                                width: '20rem', fontFamily: 'Arial, sans-serif',
+                                                fontSize: '18px', textAlign: 'center',
+                                                height: '2rem'
+                                            }}
+                                        >
+                                            <option value="" style={{ marginLeft: '1rem' }}>
+                                                Seleccionar el tipo de divisa</option>
                                             {tiposDivisa.map((tipo) => (
                                                 <option key={tipo.key} value={tipo.value}>
                                                     {tipo.value}
                                                 </option>
                                             ))}
                                         </Field>
-                                        <ErrorMessage name="divisa" component="div" className="error" style={{ marginLeft: '1rem' }} />
-                                    </div>
+                                        <ErrorMessage name="divisa" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
                                     <div className="form-button">
                                         <Button
                                             type="submit"

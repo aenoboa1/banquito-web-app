@@ -14,13 +14,12 @@ export const InterestAccrual = ({ onClose }) => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
+        width: 450,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         borderRadius: '5%',
         boxShadow: 24,
         p: 4,
-        fontStyle: 'italic',
     };
 
     const initialValues = {
@@ -95,63 +94,50 @@ export const InterestAccrual = ({ onClose }) => {
                                     >
                                         <span style={{ fontWeight: 'bold', }}>Acumulación de Intereses</span>
                                     </Typography>
-                                    <div style={{ width: '500px' }}>
-                                        <div className="form-field">
-                                            <label htmlFor="tasaInteres">Tasa de interés:</label>
-                                            <Field
-                                                type="number"
-                                                id="tasaInteres"
-                                                name="tasaInteres"
-                                                onChange={handleChange}
-                                                value={values.tasaInteres}
-                                                style={{ marginLeft: '2rem' }}
-                                            />
-                                            <ErrorMessage name="tasaInteres" component="div" className="error"
-                                                style={{ marginLeft: '1rem' }} />
-                                        </div>
 
-                                        <div className="form-field">
-                                            <label htmlFor="tipoInteres">Tipo de interés:</label>
-                                            <Field
-                                                type="text"
-                                                id="tipoInteres"
-                                                name="tipoInteres"
-                                                onChange={handleChange}
-                                                value={values.tipoInteres}
-                                                style={{ marginLeft: '2rem' }}
-                                            />
-                                            <ErrorMessage name="tipoInteres" component="div" className="error"
-                                                style={{ marginLeft: '1rem' }} />
-                                        </div>
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="tasaInteres" as={TextField} label="Tasa de interés" fullWidth
+                                            onChange={handleChange}
+                                            value={values.tasaInteres} type="number" />
+                                        <ErrorMessage name="tasaInteres" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
 
-                                        <div className="form-field">
-                                            <label htmlFor="periodoGracia">Diferencial:</label>
-                                            <Field
-                                                type="number"
-                                                id="diferencial"
-                                                name="diferencial"
-                                                onChange={handleChange}
-                                                value={values.diferencial}
-                                                style={{ marginLeft: '2rem' }}
-                                            />
-                                            <ErrorMessage name="diferencial" component="div" className="error"
-                                                style={{ marginLeft: '1rem' }} />
-                                        </div>
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="tipoInteres" as={TextField} label="Tipo de interés" fullWidth
+                                            onChange={handleChange}
+                                            value={values.tipoInteres} />
+                                        <ErrorMessage name="tipoInteres" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
 
-                                        <div className="form-field">
-                                            <label htmlFor="comisionMensual">Frecuencia de carga :</label>
-                                            <Field
-                                                type="text"
-                                                id="frecuenciaCarga"
-                                                name="frecuenciaCarga"
-                                                onChange={handleChange}
-                                                value={values.frecuenciaCarga}
-                                                style={{ marginLeft: '2rem' }}
-                                            />
-                                            <ErrorMessage name="frecuenciaCarga" component="div" className="error"
-                                                style={{ marginLeft: '1rem' }} />
-                                        </div>
-                                    </div>
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="diferencial" as={TextField} label="Diferencial" fullWidth
+                                            onChange={handleChange}
+                                            value={values.diferencial} type="number" />
+                                        <ErrorMessage name="diferencial" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
+
+                                    <Box sx={{ marginTop: '2rem', marginBottom: '2rem' }} className="form-field">
+                                        <Field name="frecuenciaCarga" as={TextField} label="Frecuencia de carga" fullWidth
+                                            onChange={handleChange}
+                                            value={values.frecuenciaCarga} />
+                                        <ErrorMessage name="frecuenciaCarga" component="div" className="error"
+                                            style={{
+                                                color: 'red', fontSize: '16px',
+                                                fontFamily: 'Arial, sans-serif', marginLeft: '1rem'
+                                            }} />
+                                    </Box>
                                     <div className="form-button">
                                         <Button
                                             type="submit"
