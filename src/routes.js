@@ -39,11 +39,13 @@
 import Movimientos from "pages/cuentas-movimientos";
 import CreditCard from "examples/Icons/CreditCard";
 import Prestamos from "./pages/solicitud-prestamos";
-import {Money, PointOfSale} from "@mui/icons-material";
+import {Money, PointOfSale, Portrait} from "@mui/icons-material";
 import SimuladorPrestamos from "./pages/simulador-prestamos";
 import Transferencias from "pages/transacciones-transferencias";
 import SignIn from "./pages/login/sign-in";
 import SignUp from "./pages/login/sign-up";
+import TransactionsDetail from "./pages/cuentas-movimientos/account-details";
+import { ConfirmTransfer } from "pages/transacciones-transferencias/components/ConfirmTransfer";
 
 const routes = [
     {
@@ -73,7 +75,6 @@ const routes = [
         component: <SimuladorPrestamos/>,
         noCollapse: true,
     },
-
     {
         type: "collapse",
         name: "Transacciones",
@@ -84,13 +85,32 @@ const routes = [
         noCollapse: true,
     },
     {
+        type: "collapse",
+        name: "Mi Perfil",
+        key: "profile",
+        route: "/profile",
+        icon: <Portrait size="12px"/>,
+        component: <Transferencias/>,
+        noCollapse: true,
+    },
+
+    {
+        route: "/cuentas/detail",
+        component: <TransactionsDetail/>,
+    },
+    {
         route: "/authentication/sign-in",
         component: <SignIn/>,
     },
     {
         route: "/authentication/sign-up",
         component: <SignUp/>,
-    }
+    },
+    {
+        route: '/transferenciasConfirm',
+        component: <ConfirmTransfer/>,
+    },
+
 
 
 ];
