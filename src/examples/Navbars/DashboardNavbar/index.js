@@ -58,6 +58,8 @@ import {
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import Avatar from "@mui/material/Avatar";
+import useStateContext from "../../../hooks/useStateContext";
+import {Chip} from "@mui/material";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -65,6 +67,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+  const { context } = useStateContext();
 
   useEffect(() => {
     // Setting the navbar type
@@ -138,15 +141,20 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+
+
   function stringAvatar(name) {
+    const nameParts = name.split(' ');
+    const firstNameInitial = nameParts[0][0];
+    const lastNameInitial = nameParts.length > 1 ? nameParts[1][0] : '';
+
     return {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      children: `${firstNameInitial}${lastNameInitial}`,
     };
   }
-
 
   function stringToColor(string) {
     let hash = 0;
@@ -186,8 +194,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
             <SoftBox color={light ? "white" : "inherit"}>
               <Link to="/authentication/sign-in">
                 <IconButton sx={navbarIconButton} size="small">
-                  <Avatar {...stringAvatar('Kent Dodds')} />
+                  <Avatar {...stringAvatar(context.username)} />
                 </IconButton>
+                  <Chip label={context.username} variant="outlined" />
               </Link>
               <IconButton
                 size="small"

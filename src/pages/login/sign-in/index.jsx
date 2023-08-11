@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -12,36 +10,58 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import LoginIcon from '@mui/icons-material/Login';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import banc from "./../../../assets/banc.jpg";
 import PageLayout from 'examples/LayoutContainers/PageLayout';
-import { Formik, Field, Form } from 'formik';
 import "./dise.css";
-import axios from "axios";
-import { createAPIEndpoint, ENDPOINTS } from "../../../api";
+import { createloginEndpoint, ENDPOINTS } from "../../../api";
+import {useNavigate} from "react-router-dom";
+import useStateContext from "../../../hooks/useStateContext";
 
-
-
-
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="#">
-                Banquito
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+const validationSchema = yup.object({
+    username: yup
+        .string()
+        .required('Ingrese su usuario'),
+    password: yup
+        .string()
+        .required('Ingrese su Contraseña'),
+});
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
 
-
+    const { context, setContext, resetContext } = useStateContext();
+    const navigate = useNavigate();
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            createloginEndpoint(ENDPOINTS.login).post(
+                values
+            ).then(
+                (res) => {
+                    setContext({
+                        username: res.data.username,
+                        email: res.data.email,
+                        token: res.data.token
+                    })
+                    navigate('/home');
+                }).catch(
+                (error) => {
+                    if (error.response && error.response.data && error.response.data.message === "Invalid credentials") {
+                        formik.setStatus('El usuario o la contraseña son incorrectos.');
+                    } else {
+                        formik.setStatus('Ocurrió un error al iniciar sesión.');
+                    }
+                }
+            )
+        },
+    });
 
     return (
         <PageLayout>
@@ -55,10 +75,8 @@ export default function SignIn() {
                         md={7}
                         sx={{
                             backgroundImage: 'url(https://i.ibb.co/PCh8wDG/banc.jpg)',
-
                             backgroundRepeat: 'no-repeat',
                             backgroundColor: "#ffffff",
-
                             backgroundSize: '85% auto',
                             backgroundPosition: 'left',
                         }}
@@ -75,104 +93,64 @@ export default function SignIn() {
                         >
                             <img src={banc} alt="hyper" height={50} className="mb-3" />
                             <Avatar sx={{ m: 1, bgcolor: 'error' }}>
-
-
                                 <LockOutlinedIcon />
                             </Avatar>
                             <Typography component="h1" variant="h5">
                                 Iniciar Sesion
                             </Typography>
 
-                            <Formik
-                                initialValues={{
-                                    user: '', password: '',
-                                }}
-                                onSubmit={data => {
-                                    console.log(data);
+                            <form onSubmit={formik.handleSubmit} noValidate>
 
-                                    createAPIEndpoint(ENDPOINTS.accounts).fetch()
-                                        .then(function (res) {
-                                            for (let item of res.data) {
-                                                console.log(item)
-                                                if ("admin" === data.user && "123" === data.password) {
-                                                    window.location.href = '/home';
-                                                } else {
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Ingrese su usuario"
+                                    name="username"
+                                    autoComplete="username"
+                                    autoFocus
+                                    {...formik.getFieldProps('username')}
+                                    error={formik.touched.username && formik.errors.username ? true : false}
+                                    helperText={formik.touched.username && formik.errors.username ? formik.errors.username : ''}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Ingrese su Contraseña"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    {...formik.getFieldProps('password')}
+                                    error={formik.touched.password && formik.errors.password ? true : false}
+                                    helperText={formik.touched.password && formik.errors.password ? formik.errors.password : ''}
+                                />
 
-                                                }
-
-                                            }
-
-
-                                        })
-                                        .catch(function (res) {
-                                            console.log(res)
-                                        });
-                                }}
-
-                            >
-
-
-
-
-
-
-
-
-                                <Form component="form" noValidate sx={{ mt: 1 }} >
-                                    <Field
-                                        validateOnBlur
-                                        validateOnChange
-                                        name="firstName"
-                                        render={({ field, form }) => (
-
-                                            <Field as={TextField}
-                                                margin="normal"
-                                                required
-                                                fullWidth
-                                                id="user"
-                                                label="Ingrese su usuario"
-                                                name="user"
-                                                autoComplete="user"
-                                                autoFocus
-                                            />
-
-                                        )}
-                                    />
-                                    <Field as={TextField}
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Ingrese su Contraseña"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-                                    />
-
-                                    <Button
-                                        type="onSubmit"
-                                        color="error"
-                                        fullWidth
-                                        variant="contained"
-                                        sx={{ mt: 3, mb: 2 }}
-                                    >
-                                        Ingresar
-                                    </Button>
-                                    <Grid container>
-                                        <Grid item xs>
-                                            <Link href="#" variant="body2">
-                                                Olvidaste tu Contraseña?
-                                            </Link>
-                                        </Grid>
-                                        <Grid item>
-                                            <Link href={"sign-up"} variant="body2">
-                                                No tienes una cuenta? Solicitala!
-                                            </Link>
-                                        </Grid>
+                                {formik.status && <Typography color="error">{formik.status}</Typography>}
+                                <Button
+                                    type="submit"
+                                    color="error"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Ingresar
+                                </Button>
+                                <Grid container>
+                                    <Grid item xs>
+                                        <Link href="#" variant="body2">
+                                            Olvidaste tu Contraseña?
+                                        </Link>
                                     </Grid>
-                                    <Copyright sx={{ mt: 5 }} />
-                                </Form>
-                            </Formik>
+                                    <Grid item>
+                                        <Link href={"sign-up"} variant="body2">
+                                            No tienes una cuenta? Solicitala!
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </form>
                         </Box>
                     </Grid>
                 </Grid>
