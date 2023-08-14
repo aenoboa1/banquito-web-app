@@ -47,31 +47,40 @@ export const ConfirmTransfer = () => {
                 alignItems="center"
             >
                 
+                
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '16rem' }}>
-                    
-                    <Card sx={{ width: 926, height: 400, minWidth: 300, border: '1px solid #df2c3f', borderRadius: '10px', marginY: '30px' }}>
+                  
+                    <Card sx={{ width: 650, height:400, minWidth: 300, border: '1px solid #df2c3f', borderRadius: '10px', marginY: '30px' }}>
+                        <Typography sx={{ mb: 0.9, lineHeight: '5rem', }} color="text.primary" align='center' fontSize={30}>
+                                <span style={{ fontWeight: 'bold' }}>
+                                    ¿Desea confirmar la Transacción?
+                                </span>
+                            </Typography>
                         <CardContent sx={{ textAlign: 'start' }} className='p-tag'>
-                            <Typography sx={{ mb: 1.5, lineHeight: '5rem' }} color="text.secondary">
+                        
+                            <Typography sx={{ mb: 1.5, lineHeight: '3rem' }} color="text.secondary">
                                 Se transferirá la cantidad de: 80 $
                             </Typography>
-                            <Typography sx={{ mb: 1.5, lineHeight: '5rem' }} color="text.secondary">
+                            <Typography sx={{ mb: 1.5, lineHeight: '3rem' }} color="text.secondary">
                                 De la cuenta: XXXXXXXX10
                             </Typography>
-                            <Typography sx={{ mb: 1.5, lineHeight: '5rem' }} color="text.secondary">
+                            <Typography sx={{ mb: 1.5, lineHeight: '3rem' }} color="text.secondary">
                                 A la cuenta: XXXXXXXX90
                             </Typography>
-                            <Typography sx={{ mb: 1.5, lineHeight: '5rem' }} color="text.secondary">
+                            <Typography sx={{ mb: 1.5, lineHeight: '3rem' }} color="text.secondary">
                                 Nombre de beneficiario: Marcelo Arias
                             </Typography>
                         </CardContent>
                     </Card>
+                    
+                
                     <div>
                         <Button
                             variant="contained"
                             color="primary"
                             style={{
                                 marginBottom: '10px',
-                                marginRight: '20rem',
+                                marginLeft: '20rem',
                                 backgroundColor: '#00202E',
                                 color: '#FFFFFF'
                             }}
@@ -85,7 +94,7 @@ export const ConfirmTransfer = () => {
                             color="secondary"
                             style={{
                                 marginBottom: '10px',
-                                marginLeft: '20rem',
+                                marginLeft: '4rem',
                                 backgroundColor: '#810000',
                                 color: '#FFFFFF'
                             }}
@@ -105,8 +114,8 @@ export const ConfirmTransfer = () => {
                         aria-labelledby="keep-mounted-modal-title"
                         aria-describedby="keep-mounted-modal-description"
                     >
-                        <Box sx={style}>
-                            <Typography sx={{ mb: 0.5, lineHeight: '2rem', }} color="text.primary" align='center' fontSize={30}>
+                        <Box sx={style} style={{border: '2px solid red', borderRadius:20,}}>
+                            <Typography sx={{ mb: 0.9, lineHeight: '2rem', }} color="text.primary" align='center' fontSize={30}>
                                 <span style={{ fontWeight: 'bold' }}>
                                     Transacción Exitosa
                                 </span>
