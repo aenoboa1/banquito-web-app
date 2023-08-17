@@ -194,9 +194,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
             <SoftBox color={light ? "white" : "inherit"}>
               <Link to="/authentication/sign-in">
                 <IconButton sx={navbarIconButton} size="small">
-                  <Avatar {...stringAvatar(context.username)} />
+                  <Avatar {...stringAvatar("Test")} />
                 </IconButton>
-                  <Chip label={context.username} variant="outlined" />
+                  <Chip label={"Test"} variant="outlined" />
               </Link>
               <IconButton
                 size="small"
