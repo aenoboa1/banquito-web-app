@@ -1,17 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+import './App.css';
 
 import { useState, useEffect, useMemo } from "react";
 
@@ -27,7 +14,7 @@ import Icon from "@mui/material/Icon";
 import SoftBox from "components/SoftBox";
 
 // Soft UI Dashboard React examples
-import Sidenav from "examples/Sidenav";
+import Sidenav from "./examples/Sidenav";
 
 // Soft UI Dashboard React themes
 import theme from "assets/theme";
@@ -110,25 +97,23 @@ export default function App() {
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={themeRTL}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={brand}
-              brandName="BanQuito"
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-          </>
-        )}
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/cuentas" />} />
-        </Routes>
-      </ThemeProvider>
+      <CssBaseline />
+      {layout === "dashboard" && (
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={brand}
+            brandName="BanQuito"
+            routes={routes}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+        </>
+      )}
+      <Routes>
+        {getRoutes(routes)}
+        <Route path="*" element={<Navigate to="/cuentas" />} />
+      </Routes>
     </CacheProvider>
   ) : (
     <ThemeProvider theme={theme}>
