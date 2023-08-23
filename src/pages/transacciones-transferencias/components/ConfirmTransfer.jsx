@@ -50,13 +50,14 @@ export const ConfirmTransfer = () => {
                 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '16rem' }}>
                   
-                    <Card sx={{ width: 650, height:400, minWidth: 300, border: '1px solid #df2c3f', borderRadius: '10px', marginY: '30px' }}>
-                        <Typography sx={{ mb: 0.9, lineHeight: '5rem', }} color="text.primary" align='center' fontSize={30}>
+                    <Card sx={{ width: 450, height:400, minWidth: 300, boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',borderRadius: '5px', marginY: '30px' }}>
+                        <Typography sx={{ mb: 0.9, lineHeight: '7rem', }} color="text.primary" align='center' fontSize={25}>
                                 <span style={{ fontWeight: 'bold' }}>
                                     ¿Desea confirmar la Transacción?
                                 </span>
                             </Typography>
-                        <CardContent sx={{ textAlign: 'start' }} className='p-tag'>
+                            <Divider/>    
+                        <CardContent sx={{ textAlign: 'center' }} className='p-tag'>
                         
                             <Typography sx={{ mb: 1.5, lineHeight: '3rem' }} color="text.secondary">
                                 Se transferirá la cantidad de: 80 $
@@ -75,12 +76,30 @@ export const ConfirmTransfer = () => {
                     
                 
                     <div>
+                        
+                    </div>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            style={{
+                                width: '450px',
+                                marginBottom: '10px',
+                                marginLeft: '0rem',
+                                backgroundColor: '#810000',
+                                color: '#FFFFFF'
+                            }}
+                            onClick={handleOpen}
+                        >
+                            CONFIRMAR
+                        </Button>    
+                    <div>
                         <Button
                             variant="contained"
                             color="primary"
                             style={{
+                                width: '450px',
                                 marginBottom: '10px',
-                                marginLeft: '20rem',
+                                marginLeft: '0rem',
                                 backgroundColor: '#00202E',
                                 color: '#FFFFFF'
                             }}
@@ -88,20 +107,7 @@ export const ConfirmTransfer = () => {
                         >
                             CANCELAR
                         </Button>
-
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            style={{
-                                marginBottom: '10px',
-                                marginLeft: '4rem',
-                                backgroundColor: '#810000',
-                                color: '#FFFFFF'
-                            }}
-                            onClick={handleOpen}
-                        >
-                            CONFIRMAR
-                        </Button>
+                        
                     </div>
                 </div>
             </Grid>
@@ -114,15 +120,16 @@ export const ConfirmTransfer = () => {
                         aria-labelledby="keep-mounted-modal-title"
                         aria-describedby="keep-mounted-modal-description"
                     >
-                        <Box sx={style} style={{border: '2px solid red', borderRadius:20,}}>
-                            <Typography sx={{ mb: 0.9, lineHeight: '2rem', }} color="text.primary" align='center' fontSize={30}>
+                        <Box sx={style} style={{border: 'rgba(192,192,192,0.3)', borderRadius:'5px',}}>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <img src="ok.png" alt="ok" style={{ width: '80px', height: 'auto', }} />
+                            </div>
+                            <Typography sx={{ mb: 0.9, lineHeight: '4rem', }} color="text.primary" align='center' fontSize={20}>
                                 <span style={{ fontWeight: 'bold' }}>
                                     Transacción Exitosa
                                 </span>
                             </Typography>
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <img src="ok.png" alt="ok" style={{ width: '50%', height: 'auto', }} />
-                            </div>
+                            
                             <Divider sx={{ backgroundColor: "#000" }} />
 
                             <Typography sx={{ mb: 0.5, lineHeight: '2rem' }} color="text.secondary">
@@ -134,13 +141,14 @@ export const ConfirmTransfer = () => {
                             <Typography sx={{ mb: 0.5, lineHeight: '2rem' }} color="text.secondary">
                                 Beneficiario: <span style={{ fontWeight: 'bold' }}>Marcelo Arias</span>
                             </Typography>
-
+                            <Divider sx={{ backgroundColor: "#000" }} />
                             <Button
                                 variant="contained"
                                 color="primary"
                                 style={{
+                                    width: '330px',
                                     marginTop: '10px',
-                                    marginLeft: '4rem',
+                                    marginLeft: '0rem',
                                     backgroundColor: '#00202E',
                                     color: '#FFFFFF'
                                 }}
