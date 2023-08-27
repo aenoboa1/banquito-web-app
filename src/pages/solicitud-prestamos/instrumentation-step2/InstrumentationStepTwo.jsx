@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
     Email, ContactPhone, Comment, Group,
@@ -15,27 +15,35 @@ import { useNavigate } from 'react-router-dom';
 import SoftTypography from "../../../components/SoftTypography";
 
 const validationSchema = yup.object({
-    identificationNumber: yup.string().required('El número de identificación es requerido'),
-    typeClient: yup.string().required('Seleccione un cliente'),
-    typeDocumentId: yup.string().required('Seleccione un tipo de documento'),
-    currencyType: yup.string().required('Seleccione un tipo de moneda'),
-    ammount: yup.string().required('Ingrese un monto'),
+    identificationNumber: yup.string().required('El número de identificación es requerido.'),
+    // typeClient: yup.string().required('Seleccione un cliente.'),
+    // typeDocumentId: yup.string().required('Seleccione un tipo de documento.'),
+    accountNumber: yup.string().required('El número de cuenta es requerido.'),
 });
 
 
 const InstrumentationStepTwo = () => {
 
     const navigate = useNavigate();
+    const [selectedTypeClient, setSelectedTypeClient] = useState('');
+    const [selectedTypeDocumentId, setSelectedTypeDocumentId] = useState('');
+    const [identificationNumber, setIdentificationNumber] = useState('');
+    const [clientInfo, setClientInfo] = useState([]);
+    const [clientAccount, setClienAccount] = useState([]);
 
     const typeClients = [
-        { value: 'ACT', label: 'Naturales' },
-        { value: 'INA', label: 'Jurídicos' },
+        { value: 'CUS', label: 'Naturales' },
+        { value: 'GCO', label: 'Jurídicos' },
     ];
 
-    const documentTypes = [
+    const documentTypesCUS = [
         { value: 'CID', label: 'Cédula' },
         { value: 'PAS', label: 'Pasaporte' },
         { value: 'RUC', label: 'RUC' },
+    ];
+
+    const documentTypesGCO = [
+        { value: 'RUC1', label: 'RUC1' },
     ];
 
     const {
@@ -49,8 +57,7 @@ const InstrumentationStepTwo = () => {
             identificationNumber: '',
             typeClient: '',
             typeDocumentId: '',
-            currencyType: '',
-            ammount: 0,
+            accountNumber: '',
         },
     });
 
@@ -59,8 +66,30 @@ const InstrumentationStepTwo = () => {
 
     };
 
+    const handleSearch = () => {
+        createAPIEndpoint(ENDPOINTS.customers)
+            .fetchByTypeDocumentAndDocumentId(selectedTypeDocumentId, identificationNumber)
+            .then((res) => {
+                console.log(res.data);
+                setClientInfo(res.data);
+            })
+            .catch((error) => {
+                console.error(error);
+                setClientInfo([]);
+                return [];
+            });
+    };
+
     const handleNextStep = () => {
         navigate("/prestamos/step3");
+    };
+
+    const handleTypeClientChange = (event) => {
+        setSelectedTypeClient(event.target.value);
+    };
+
+    const handleTypeDocumentIdChange = (event) => {
+        setSelectedTypeDocumentId(event.target.value);
     };
 
     return (
@@ -77,11 +106,12 @@ const InstrumentationStepTwo = () => {
                     <TextField
                         fullWidth
                         type="text"
-                        id="identificationNumber"
-                        label="Número de Identificación"
-                        {...register("identificationNumber")}
-                        error={Boolean(errors.identificationNumber)}
-                        helperText={errors.identificationNumber?.message}
+                        id="accountNumber"
+                        label="Número de Cuenta"
+                        {...register("accountNumber")}
+                        error={Boolean(errors.accountNumber)}
+                        helperText={errors.accountNumber?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -92,26 +122,35 @@ const InstrumentationStepTwo = () => {
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <SoftTypography variant="h5" component="div" align='center'>
-                        Usuario Encontrado
-                    </SoftTypography>
+                    {
+                        clientAccount.length > 0 && (
+                            <SoftTypography variant="h5" component="div" align='center'>
+                                Usuario Encontrado
+                            </SoftTypography>
+                        )
+                    }
                 </Grid>
+
 
                 <Grid item xs={3}>
                     <Grid container spacing={2}>
-                        <Grid item xs={8}></Grid>
-                        <Grid item xs={3}>
-                            <SoftButton color="primary" variant="contained" type="submit">
-                                Buscar
+                        <Grid item xs={4}></Grid>
+                        <Grid item xs={8}>
+                            <SoftButton color="primary" variant="contained">
+                                Buscar Cuenta
                             </SoftButton>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={8}>
-                    <SoftTypography variant="h5" component="div" align='center'>
-                        Información
-                    </SoftTypography>
+                    {
+                        clientAccount.length > 0 && (
+                            <SoftTypography variant="h5" component="div" align='center'>
+                                Información
+                            </SoftTypography>
+                        )
+                    }
                 </Grid>
 
                 <Grid item xs={12}></Grid>
@@ -135,8 +174,11 @@ const InstrumentationStepTwo = () => {
                                 select
                                 fullWidth
                                 label="Tipo de Usuario"
-                                error={Boolean(errors.typeClient)}
-                                helperText={errors.typeClient?.message}
+                                {...register("typeClient")}
+                                value={selectedTypeClient}
+                                onChange={handleTypeClientChange}
+                            // error={Boolean(errors.typeClient)}
+                            // helperText={errors.typeClient?.message}
                             >
                                 {typeClients.map((type) => (
                                     <MenuItem key={type.value} value={type.value}>
@@ -148,10 +190,15 @@ const InstrumentationStepTwo = () => {
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <SoftTypography variant="h5" component="div" align='center'>
-                        Usuario Encontrado
-                    </SoftTypography>
+                    {
+                        clientInfo.length > 0 && (
+                            <SoftTypography variant="h5" component="div" align='center'>
+                                Usuario Encontrado
+                            </SoftTypography>
+                        )
+                    }
                 </Grid>
+
 
                 <Grid item xs={1}></Grid>
                 <Grid item xs={3}>
@@ -162,24 +209,43 @@ const InstrumentationStepTwo = () => {
                             <TextField
                                 {...field}
                                 fullWidth
-                                select // tell TextField to render select
+                                select
                                 label="Tipo de Documento"
-                                error={Boolean(errors.typeDocumentId)}
-                                helperText={errors.typeDocumentId?.message}
+                                {...register("typeDocumentId")}
+
+                                value={selectedTypeDocumentId}
+                                onChange={handleTypeDocumentIdChange}
+                            // error={Boolean(errors.typeDocumentId)}
+                            // helperText={errors.typeDocumentId?.message}
                             >
-                                {documentTypes.map((type) => (
-                                    <MenuItem key={type.value} value={type.value}>
-                                        {type.label}
-                                    </MenuItem>
-                                ))}
+                                {
+                                    selectedTypeClient === 'CUS' ? (
+                                        documentTypesCUS.map((type) => (
+                                            <MenuItem key={type.value} value={type.value}>
+                                                {type.label}
+                                            </MenuItem>
+                                        ))
+                                    ) : (
+                                        documentTypesGCO.map((type) => (
+                                            <MenuItem key={type.value} value={type.value}>
+                                                {type.label}
+                                            </MenuItem>
+                                        ))
+                                    )
+                                }
                             </TextField>
                         )}
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <SoftTypography variant="h5" component="div" align='center'>
-                        Información
-                    </SoftTypography>
+                    {
+                        clientInfo.length > 0 && (
+                            <SoftTypography variant="h6" component="div" align='center'>
+                                Nombre y Apellido: {clientInfo[0].firstName} {clientInfo[0].lastName} <br />
+                                Email: {clientInfo[0].emailAddress} <br />
+                                Género: {clientInfo[0].gender === 'M' ? 'Masculino' : 'Femenino'}
+                            </SoftTypography>
+                        )}
                 </Grid>
 
                 <Grid item xs={1}></Grid>
@@ -190,8 +256,11 @@ const InstrumentationStepTwo = () => {
                         id="identificationNumber"
                         label="Número de Identificación"
                         {...register("identificationNumber")}
+                        value={identificationNumber}
+                        onChange={(event) => setIdentificationNumber(event.target.value)}
                         error={Boolean(errors.identificationNumber)}
                         helperText={errors.identificationNumber?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -205,10 +274,10 @@ const InstrumentationStepTwo = () => {
 
                 <Grid item xs={3}>
                     <Grid container spacing={2}>
-                        <Grid item xs={8}></Grid>
-                        <Grid item xs={3}>
-                            <SoftButton color="primary" variant="contained" type="submit">
-                                Buscar
+                        <Grid item xs={4}></Grid>
+                        <Grid item xs={8}>
+                            <SoftButton color="primary" variant="contained" onClick={handleSearch}>
+                                Buscar Cliente
                             </SoftButton>
                         </Grid>
                     </Grid>

@@ -89,7 +89,7 @@ const InstrumentationStepThree = () => {
         defaultValues: {
             identificationNumber: '',
             loanType: '',
-            amount: 0,
+            amount: '',
             branchId: '',
             tipoPeriodoGracia: '',
             periodoGracia: '',
@@ -181,6 +181,7 @@ const InstrumentationStepThree = () => {
                         {...register("tipoPeriodoGracia")}
                         error={Boolean(errors.tipoPeriodoGracia)}
                         helperText={errors.tipoPeriodoGracia?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -225,6 +226,7 @@ const InstrumentationStepThree = () => {
                         {...register("periodoGracia")}
                         error={Boolean(errors.periodoGracia)}
                         helperText={errors.periodoGracia?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -246,6 +248,7 @@ const InstrumentationStepThree = () => {
                         {...register("amount")}
                         error={Boolean(errors.amount)}
                         helperText={errors.amount?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -265,6 +268,7 @@ const InstrumentationStepThree = () => {
                         {...register("monthlyCommission")}
                         error={Boolean(errors.monthlyCommission)}
                         helperText={errors.monthlyCommission?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -286,6 +290,7 @@ const InstrumentationStepThree = () => {
                         {...register("name")}
                         error={Boolean(errors.name)}
                         helperText={errors.name?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -305,6 +310,7 @@ const InstrumentationStepThree = () => {
                         {...register("deadlineReturn")}
                         error={Boolean(errors.deadlineReturn)}
                         helperText={errors.deadlineReturn?.message}
+                        inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
