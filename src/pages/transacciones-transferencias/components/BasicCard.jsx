@@ -1,40 +1,51 @@
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import * as React from "react";
-import {useEffect, useState} from "react";
-import Typography from "@mui/material/Typography";
-import Box from '@mui/material/Box';
-import {DataGrid} from '@mui/x-data-grid';
-import {Modal, styled} from "@mui/material";
+import '../css/styles.css';
+import {Button, Divider, InputLabel, Modal, OutlinedInput, Select, TextField} from '@mui/material';
+import React, {useEffect, useState} from 'react'
+
+import SearchIcon from '@mui/icons-material/Search';
+import Grid from '@mui/material/Grid';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {ErrorMessage, Form, Formik} from "formik";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import MenuItem from "@mui/material/MenuItem";
+
 
 
 
 export const BasicCard = () => {
     const [inputValue, setInputValue] = useState(null);
-    const [account, setAccount] = useState(null);
+    const [account, setAccount] = useState('');
+    const [debtorAccount, setDebtorAccount] = useState('');
     const [show, setShow] = useState(false);
     const [showNot, setShowNot] = useState(false);
     const [disabledButton, setDisabledButton] = useState(false);
     const [disabledTextF, setDisabledTextF] = useState(false);
+    const [Error, setError] = useState("");
+    const [searchAccount, setSearchAccount] = useState([]);
+    const [clientAccountName, setClientAccountName] = useState("");
+    const [doTrx, setDoTrx] = useState(false);
     const [trx, setTrx] = useState([]);
     const [valueTrx, setValueTrx] = useState(0);
     const [accountTrx, setAccountTrx] = useState();
-    const [value, setValue] = useState("");
-    const [Error, setError] = useState("");
-    const [result, setResult] = useState([]);
-    const [searchAccount, setSearchAccount] = useState([]);
-    const [clientAccountName, setClientAccountName] = useState("");
-    const [transactions, setTransactions] = useState([]);
 
     const [open, setOpen] = React.useState(false);
+
+    useEffect(() => {
+        axios.get('https://banquito-ws-cuentas-ntsumodxxq-uc.a.run.app/api/v1/account/information/00138015')
+            .then(async (response) => {
+                setAccount(response.data)
+            })
+            .catch((err) => {
+
+            })
+    }, []);
 
     const style = {
         position: 'absolute',
@@ -58,19 +69,27 @@ export const BasicCard = () => {
         setOpen(false);
     };
 
-    const [sendTrx, setSendTrx] = useState(false);
+    const handleDoTrx = () => {
+        setDoTrx(!doTrx);
+    }
 
     const handleChangeSearch = (e) => {
         setInputValue(e.target.value);
-        e.preventDefault()
+        e.preventDefault();
         getAccountInfo(inputValue);
     };
+
+    const handleAccountChange = (e) => {
+        setDebtorAccount(e.target.value);
+        e.preventDefault();
+    }
 
     const getAccountInfo = (value) => {
         axios.get('https://banquito-ws-cuentas-ntsumodxxq-uc.a.run.app/api/v1/account/information/' + value)
             .then(async (response) => {
                 if (response.data.codeInternalAccount === value) {
                     setSearchAccount(response.data)
+                    setClientAccountName(response.data.clientAccount.firstName+" "+response.data.clientAccount.lastName)
                     setShowNot(false);
                     setShow(true);
                     setDisabledButton(true);
@@ -87,8 +106,8 @@ export const BasicCard = () => {
 
     const submitTransfer = (trx) => {
         const {cuenta, monto, referencia} = trx;
-        const debtorAccount = searchAccount.codeInternalAccount;
-        const transactionType = "DEB";
+        const debtorAccount = account.codeInternalAccount;
+        const transactionType = "CRED";
         const transaction = {
             creditorAccount: cuenta,
             debtorAccount: debtorAccount,
@@ -141,86 +160,234 @@ export const BasicCard = () => {
 
 
     const AccountCard = () => {
-        return (<Grid>
-            <Card sx={{p: 1, m: 1}}>
-                <CardContent>
-                    <Grid container spacing={2} sx={{justifyContent: 'center'}}>
-                        <Grid item xs={8}>
-                            <Typography sx={{mb: 1.5, lineHeight: '250%'}} color="text.secondary">
-                                Propietario: {searchAccount.clientAccount.firstName} {searchAccount.clientAccount.lastName}
+        return (<Card sx={{
+            minWidth: 500, ':hover': {
+                boxShadow: 5,
+            }
+        }}>
+            <Box sx={{width: '100%', maxWidth: 580, bgcolor: 'background.paper'}}>
+                <Box sx={{my: 1, mx: 2}}>
+                    <Grid container spacing={2} columns={16}>
+                        <Grid item xs={4}>
+                            <Typography sx={{fontSize: 16}} gutterBottom>
+                                <Box sx={{textAlign: 'left', m: 1}}>Propietario:</Box>
                             </Typography>
                         </Grid>
-                        <Grid item xs={8}>
-                            <Typography sx={{mb: 1.5, lineHeight: '250%'}} color="text.secondary">
-                                Saldo Disponible: ${searchAccount.availableBalance}
+                        <Grid item xs={6}>
+                            <Typography sx={{fontSize: 16}} gutterBottom>
+                                <Box sx={{flexDirection: 'row-reverse', m:1}}>
+                                    {clientAccountName}
+                                </Box>
                             </Typography>
                         </Grid>
                     </Grid>
-                </CardContent>
-            </Card>
-            <Divider></Divider>
-        </Grid>);
+                </Box>
+                <Box sx={{my: 1, mx: 2}}>
+                    <Grid container spacing={1} columns={16}>
+                        <Grid item xs={4}>
+                            <Typography sx={{fontSize: 16}} gutterBottom>
+                                <Box sx={{textAlign: 'left', m: 1}}>Cuenta:</Box>
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Box sx={{my: 0, mx: 2}}>
+                    <Grid container spacing={1} columns={16}>
+                        <Grid item xs={12}>
+                            <Typography sx={{fontSize: 16}} color="text.secondary" gutterBottom variant="button">
+                                <Box sx={{textAlign: 'left', m: 1}}>{
+                                    searchAccount.productAccount === 'BASIC CURRENT BUSINESS ACCOUNT' ? 'Ahorro' : 'Corriente'
+                                }</Box>
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography sx={{fontSize: 16}} gutterBottom>
+                                <Box sx={{textAlign: 'left', m: 1}}>
+                                    {searchAccount.codeInternalAccount}
+                                </Box>
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Divider variant="middle" color="#ad1414" sx={{height: 3}}/>
+                <Box sx={{ justifyContent:'center', p:1,m:1}}>
+                    <Grid container >
+                       <Grid item sx={{ mx:'auto'}}>
+                           <Button variant="contained" color="primary" startIcon={<AttachMoneyIcon />} onClick={handleDoTrx}>
+                               Transferir
+                           </Button>
+                       </Grid>
+                    </Grid>
+                </Box>
+            </Box>
+        </Card>
+        );
     }
 
-    return (
-        <>
-            <Grid
-                container
-                spacing={5}
-                direction="column"
-                alignItems="center"
-                sx={{minHeight: '100vh'}}
+    const TransferForm = () => {
+        return (
+            <Formik
+                initialValues={{
+                    cuenta: searchAccount.codeInternalAccount,
+                    monto: '',
+                    referencia: '',
+
+                }}
+                validate={(values) => {
+                    let errors = {};
+                    if (!values.cuenta) {
+                        errors.cuenta = 'cuenta requerida!';
+                    }
+                    if (!values.monto) {
+                        errors.monto = 'monto requerido!';
+                    }
+                    if (!values.referencia) {
+                        errors.referencia = 'referencia requerida!';
+                    }
+                    return errors;
+                }}
+                onSubmit={(values, {resetForm}) => {
+                    resetForm();
+                    console.log(values);
+                    setTrx(values);
+                    setAccountTrx(searchAccount.codeInternalAccount);
+                    setValueTrx(values.monto)
+                    handleOpenModal();
+                }}
             >
-                <Grid item xs={6}>
-                    <Paper
+                {({errors, values, handleChange}) => (
+                    <Box>
+                        <Grid container sx={{justifyContent: 'center'}}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h5" component="div">
+                                        Realizar Transferencia
+                                    </Typography>
+                                    <Box>
+                                        <Form>
+                                            <FormControl sx={{p: 1, m: 1, display: 'block'}}>
+                                            <InputLabel id="cuentaLbl">Cuenta Origen</InputLabel>
+                                            <Select fullWidth
+                                                    labelId="cuentaLbl"
+                                                    id='cuenta'
+                                                    name="cuenta"
+                                                    value={debtorAccount}
+                                                    label="Cuenta de Origen"
+                                                    onChange={handleAccountChange}
+                                            >
+                                                <MenuItem key={account.codeInternationalAccount}
+                                                          value={account.codeInternalAccount}>{account.productAccount === 'BASIC CURRENT BUSINESS ACCOUNT' ? 'Ahorro' : 'Corriente'} - {account.codeInternalAccount}</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                            <FormControl sx={{p: 1, m: 1, display: 'block'}}>
+                                                <InputLabel htmlFor="monto" size="small">Monto</InputLabel>
+                                                <OutlinedInput fullWidth id="monto" name="monto"
+                                                               onChange={handleChange} value={values.monto}/>
+                                                <ErrorMessage name="monto" component={() => (<FormHelperText
+                                                    id="component-error-text">{errors.monto}</FormHelperText>)}/>
+                                            </FormControl>
+                                            <FormControl sx={{p: 1, m: 1, display: 'block'}}>
+                                                <InputLabel htmlFor="referencia" size="small">Referencia</InputLabel>
+                                                <OutlinedInput fullWidth id="referencia" name="referencia"
+                                                               onChange={handleChange}
+                                                               value={values.referencia}/>
+                                                <ErrorMessage name="referencia" component={() => (<FormHelperText
+                                                    id="component-error-text">{errors.referencia}</FormHelperText>)}/>
+                                            </FormControl>
+                                            <Box sx={{flexGrow: 1, justifyContent: 'center'}}>
+                                                <Grid container spacing={2} columns={16}>
+                                                    <Grid item xs={8}>
+                                                        <Button type="submit" variant="contained"
+                                                                color="primary">Transferir</Button>
+                                                        <Modal
+                                                            open={open}
+                                                            onClose={handleCloseModal}
+                                                            aria-labelledby="parent-modal-title"
+                                                            aria-describedby="parent-modal-description"
+                                                        >
+                                                            <Box sx={{...style, width: 400}}>
+                                                                <h2 id="parent-modal-title">Detalles de
+                                                                    transferencia</h2>
+                                                                <p id="parent-modal-description">
+                                                                    Vas a transferir $ {valueTrx} a la
+                                                                    cuenta {accountTrx}.
+                                                                    Desea continuar?
+                                                                </p>
+                                                                <Box sx={{
+                                                                    justifyContent: 'center',
+                                                                    display: 'block',
+                                                                    p: 1,
+                                                                    m: 1
+                                                                }}>
+                                                                    <ChildModal/>
+                                                                    <Button variant="filled" color="secondary"
+                                                                            onClick={handleCloseModal}>Cerrar</Button>
+                                                                </Box>
+                                                            </Box>
+                                                        </Modal>
+                                                    </Grid>
+                                                </Grid>
+                                            </Box>
+                                        </Form>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
 
-                        component="form"
-                        sx={{p: '2px 4px', display: 'flex', alignItems: 'center', width: 400}}
-                    >
-                        <InputBase
-                            sx={{ml: 1, flex: 1}}
-                            placeholder="Validar cuenta"
-                            onChange={event => {                                 //adding the onChange event
-                                setValue(event.target.value)
-                            }}
-                        />
-                        <IconButton type="button" sx={{p: '10px'}} aria-label="search" onClick={handleChangeSearch}>
-                            <SearchIcon/>
-                        </IconButton>
-                    </Paper>
-                </Grid>
-                {
-                    // conditional rendering
-                    result.length === 0 ? (
-                        <>
-                            {Error ? (
-                                <>
-                                    <Grid item xs={6}>
-                                        No se encontro ninguna cuenta con ese número
-                                    </Grid>
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            <Grid item xs={6}>
-                                <AccountCard/>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Typography>
-                                    Últimos Movimientos
-                                </Typography>
-                            </Grid>
-                            <Divider/>
-                        </>
-                    )}
+                    </Box>
+                )}
+            </Formik>
+        )
+    }
 
+
+
+    return (
+        <Grid
+            container
+            spacing={2}
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                borderRadius: 1,
+                width: 1
+            }}
+        >
+
+            <Grid item>
+                <TextField
+                    id="outlined-basic"
+                    label="Cuenta"
+                    variant="outlined"
+                    size="small"
+                    value={inputValue}
+                    onChange={handleChangeSearch}
+                    inputProps={{maxLength: 10}}
+                    disabled={disabledTextF}
+                />
             </Grid>
-
-
-        </>
-    )
+            <Grid item>
+                <Button sx = {{marginLeft: '1rem'}}
+                    className='buttonSearch'
+                    variant="contained"
+                    size="medium"
+                    onClick={handleChangeSearch}
+                    disabled={disabledButton}
+                >
+                    Validar
+                </Button>
+            </Grid>
+            <Divider></Divider>
+            <Grid sx={{m:1, p:1}}
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                style={{marginTop: "2rem"}}
+            >
+                {show ? <AccountCard/> : <></>}
+            </Grid>
+            {doTrx ? <TransferForm/> : <></>}
+        </Grid>
+    );
 }
