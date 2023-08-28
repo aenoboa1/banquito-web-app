@@ -38,7 +38,7 @@ export const BasicCard = () => {
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        axios.get('https://banquito-ws-cuentas-ntsumodxxq-uc.a.run.app/api/v1/account/information/00138015')
+        axios.get('https://banquito-ws-cuentas-ntsumodxxq-uc.a.run.app/api/v1/account/information/00137986')
             .then(async (response) => {
                 setAccount(response.data)
             })

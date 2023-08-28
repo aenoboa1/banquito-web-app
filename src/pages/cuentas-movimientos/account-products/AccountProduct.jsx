@@ -1,36 +1,45 @@
-import { AccountBalanceWallet } from "@mui/icons-material";
-import { Button, Divider, Typography } from '@mui/material';
+import {AccountBalanceWallet} from "@mui/icons-material";
+import {Button, Divider, Typography} from '@mui/material';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import SoftBox from "../../../components/SoftBox";
 import SoftButton from "../../../components/SoftButton";
 import SoftTypography from "../../../components/SoftTypography";
 import useStateContext from '../../../hooks/useStateContext';
-import { AccountProductService } from "../service/AccountProductService";
+import axios from "axios";
 
 export const AccountProduct = () => {
 
-    const items = [{ label: 'Mis Productos' }, { label: 'Cuentas' }];
-    const home = { icon: 'pi pi-home' }
+    const items = [{label: 'Mis Productos'}, {label: 'Cuentas'}];
+    const home = {icon: 'pi pi-home'}
     const [products, setProducts] = useState([]);
     const [layout, setLayout] = useState('grid');
-    const [data, setData] = useState({ data: [] });
+    const [data, setData] = useState({data: []});
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false)
     //obteniendo token guardado en context
-    const { context } = useStateContext();
+    const {context} = useStateContext();
     const token = context.token;
     // Configuración del encabezado con el token
     const headers = {
         Authorization: `Bearer ${token}`,
     };
 
+
     useEffect(() => {
-        AccountProductService.getAccountProducts(headers).then((data) => {
-            setProducts(data);
-        });
+        const apiUrl = 'https://banquito-ws-cuentas-ntsumodxxq-uc.a.run.app/api/v1/account/user/01fb03af-3fd1-4411-9f09-a410f178afb7';
+
+        axios.get(apiUrl, {headers})
+            .then((response) => {
+                const data = response.data;
+                setProducts(data);
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
     }, []);
 
     const listItem = (product) => {
@@ -49,10 +58,11 @@ export const AccountProduct = () => {
                                     <div className="flex align-items-center gap-3">
 
                                         <span className="flex align-items-center gap-2">
-                                            <Button label="Detalle" id={product.id} icon="pi pi-money-bill" size="small" rounded
-                                                onClick={() =>
-                                                    navigate('detail', { state: product })
-                                                }>
+                                            <Button label="Detalle" id={product.id} icon="pi pi-money-bill" size="small"
+                                                    rounded
+                                                    onClick={() =>
+                                                        navigate('detail', {state: product})
+                                                    }>
                                             </Button>
                                         </span>
 
@@ -61,10 +71,7 @@ export const AccountProduct = () => {
 
                                 <Box display="flex" flexDirection="column" alignItems="center" gap={2} py={2}>
                                     <Typography variant="subtitle1" component="span" fontWeight="600">
-                                        Saldo disponible: ${product.availableBalance}
-                                    </Typography>
-                                    <Typography variant="h6" component="span" fontWeight="600">
-                                        Saldo Contable: ${product.totalBalance}
+                                        Saldo disponible: ${product.totalBalance}
                                     </Typography>
                                 </Box>
 
@@ -85,18 +92,18 @@ export const AccountProduct = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={6} md={8}>
                             <SoftTypography component="span" fontWeight="600">
-                                {product.id}
+                                {product.codeInternalAccount}
                             </SoftTypography>
                         </Grid>
                         <Grid item xs={6} md={4}>
                             <SoftTypography component="span" fontWeight="600">
-                                {product.code}
+                                {product.accountAlias}
                             </SoftTypography>
                         </Grid>
                     </Grid>
 
 
-                    <Divider />
+                    <Divider/>
                     <Box display="flex" flexDirection="column" alignItems="center" gap={2} py={2}>
 
                         <Typography variant="subtitle3" component="span" fontWeight="600">
@@ -111,19 +118,17 @@ export const AccountProduct = () => {
                             </Grid>
                             <Grid item xs={6} md={4}>
                                 <Typography component="span" fontWeight="600">
-                                    ${product.availableBalance}
+                                    ${product.totalBalance}
                                 </Typography>
                             </Grid>
                         </Grid>
 
-                        <SoftButton label="Detalle" id={product.id} startIcon={<AccountBalanceWallet />}
-                            onClick={() =>
-                                navigate('detail', { state: product })
-                            }
-                            variant={"gradient"}
-                            color={"primary"}
-
-
+                        <SoftButton label="Detalle" id={product.id} startIcon={<AccountBalanceWallet/>}
+                                    onClick={() =>
+                                        navigate('detail', {state: product})
+                                    }
+                                    variant={"gradient"}
+                                    color={"primary"}
                         >
                             Detalle
                         </SoftButton>

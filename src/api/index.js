@@ -16,6 +16,7 @@ export const ENDPOINTS = {
     bankEntity: 'bankEntity',
     customers: 'customers',
     groupCompany: 'group-company',
+    accountTransaction: 'account-transaction',
     asset: 'assets',
     guarantor: 'guarantor',
     account: 'account',
@@ -29,6 +30,7 @@ export const createAPIEndpoint = endpoint => {
     let assetPostUrl = REQUIREMENTS_URL + endpoint;
     let guarantorPostUrl = REQUIREMENTS_URL + endpoint;
     let accountInfoUrl = ACCOUNTS_URL + endpoint + '/';
+    let accountTransactionUrl = ACCOUNTS_URL + endpoint + '/';
 
     return {
         fetch: (token) => axios.get(url, token),
@@ -41,6 +43,7 @@ export const createAPIEndpoint = endpoint => {
         delete: id => axios.delete(url + id),
         fetchById: (id, token) => axios.get(url + id, token),
         fetchByCodeInternalAccount: (id, token) => axios.get(accountInfoUrl + 'information/' + id, token),
+        fetchTransactionHistory: (id, token) => axios.get(accountTransactionUrl + 'history/' + id, token),
         fetchBranches: (id, token) => axios.get(adminurl + 'branch-list/' + id, token),
         fetchByTypeDocumentAndDocumentId: (typeDocument, documentId, token) => axios.get(clientUrl + 'typeanddocument?typeDocument=' + typeDocument + '&document=' + documentId, token),
     }
