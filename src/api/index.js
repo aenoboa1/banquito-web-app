@@ -28,6 +28,7 @@ export const createAPIEndpoint = endpoint => {
     let clientUrl = CLIENTS_URL + endpoint + '/';
     let assetPostUrl = REQUIREMENTS_URL + endpoint;
     let guarantorPostUrl = REQUIREMENTS_URL + endpoint;
+    let accountInfoUrl = ACCOUNTS_URL + endpoint + '/';
 
     return {
         fetch: (token) => axios.get(url, token),
@@ -39,6 +40,7 @@ export const createAPIEndpoint = endpoint => {
         put: (id, updatedRecord, token) => axios.put(url + id, updatedRecord, token),
         delete: id => axios.delete(url + id),
         fetchById: (id, token) => axios.get(url + id, token),
+        fetchByCodeInternalAccount: (id, token) => axios.get(accountInfoUrl + 'information/' + id, token),
         fetchBranches: (id, token) => axios.get(adminurl + 'branch-list/' + id, token),
         fetchByTypeDocumentAndDocumentId: (typeDocument, documentId, token) => axios.get(clientUrl + 'typeanddocument?typeDocument=' + typeDocument + '&document=' + documentId, token),
     }

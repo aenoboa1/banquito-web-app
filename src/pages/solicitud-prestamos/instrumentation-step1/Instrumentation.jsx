@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm, } from 'react-hook-form';
 import {
-    Numbers, LocalAtm,
+    Numbers, LocalAtm, AddCircle,
 } from '@mui/icons-material';
 import { Box, Divider, Grid, InputAdornment, Snackbar, Stack, TextField, Typography } from '@mui/material';
 import MenuItem from "@mui/material/MenuItem";
@@ -9,9 +9,10 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createAPIEndpoint, ENDPOINTS } from "../../../api";
 import FormControl from "@mui/material/FormControl";
-import SoftButton from "../../../components/SoftButton";
 import { useNavigate } from 'react-router-dom';
+import SoftButton from "../../../components/SoftButton";
 import SoftTypography from "../../../components/SoftTypography";
+import SoftBox from "../../../components/SoftBox";
 import MuiAlert from "@mui/material/Alert";
 
 const validationSchema = yup.object({
@@ -205,14 +206,44 @@ const Instrumentation = () => {
                     </Grid>
 
                     <Grid item xs={8}>
-                        {
-                            clientInfo.length > 0 && (
-                                <SoftTypography variant="h6" component="div" align='center'>
-                                    Nombre y Apellido: {clientInfo[0].firstName} {clientInfo[0].lastName} <br />
-                                    Email: {clientInfo[0].emailAddress} <br />
-                                    Género: {clientInfo[0].gender === 'M' ? 'Masculino' : 'Femenino'}
-                                </SoftTypography>
-                            )}
+                        {clientInfo.length > 0 && (
+                            <Grid container style={{ position: 'relative', marginRight: '50px' }}>
+                                <Grid item xs={12} sm={4} lg={12} xl={8}
+                                    style={{ position: 'absolute', top: 0, left: "26%", padding: '10px', zIndex: 1 }}>
+                                    <SoftBox p={5} borderRadius="10%" shadow={"sm"}>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={8} md={8}>
+                                                <SoftTypography component="span" fontWeight="light"
+                                                    fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                    <strong>Nombre y Apellido:</strong> {clientInfo[0].firstName} {clientInfo[0].lastName} <br />
+                                                </SoftTypography>
+                                                <SoftTypography component="span" fontWeight="light"
+                                                    fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                    <strong>Email:</strong> {clientInfo[0].emailAddress} <br />
+                                                </SoftTypography>
+                                                <SoftTypography component="span" fontWeight="light"
+                                                    fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                    <strong>Género:</strong> {clientInfo[0].gender === 'M' ? 'Masculino' : 'Femenino'}
+                                                </SoftTypography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                        <Box display="flex" flexDirection="column" alignItems="center"
+                                            gap={2} py={2} >
+                                            <SoftButton
+                                                color={"primary"}
+                                                variant={"gradient"}
+                                                fullWidth
+                                                onClick={handleAddGuarantor}
+                                                label="Garante" startIcon={<AddCircle />}
+                                            >
+                                                Añadir Garante
+                                            </SoftButton>
+                                        </Box>
+                                    </SoftBox>
+                                </Grid>
+                            </Grid>
+                        )}
                     </Grid>
 
                     <Grid item xs={1}></Grid>
@@ -289,6 +320,9 @@ const Instrumentation = () => {
                     </Grid>
 
                     <Grid item xs={9}></Grid>
+                    <Grid item xs={12}></Grid>
+                    <Grid item xs={12}></Grid>
+                    <Grid item xs={12}></Grid>
 
                     <Grid item xs={1}></Grid>
                     <Grid item xs={3}>
@@ -300,7 +334,7 @@ const Instrumentation = () => {
                         </SoftButton>
                     </Grid>
                     <Grid item xs={8}>
-                        <Grid container>
+                        {/* <Grid container>
                             <Grid item xs={4}></Grid>
                             <Grid item xs={4}>
                                 <SoftButton color={"primary"} variant={"contained"} fullWidth
@@ -309,7 +343,7 @@ const Instrumentation = () => {
                                 </SoftButton>
                             </Grid>
                             <Grid item xs={1}></Grid>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     {/* Elementos a ocultar/mostrar */}
                     {elementosVisibles && (

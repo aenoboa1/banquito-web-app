@@ -15,12 +15,11 @@ import { useNavigate } from 'react-router-dom';
 import SoftTypography from "../../../components/SoftTypography";
 
 const validationSchema = yup.object({
-    identificationNumber: yup.string().required('Ingrese un número de identificación'),
     branchId: yup.string().required('Seleccione una sucursal'),
     loanType: yup.string().required('Seleccione un tipo de préstamo'),
     amount: yup.string().required('Ingrese un monto'),
-    tipoPeriodoGracia: yup.string().required('Ingrese un tipo de periodo de gracia'),
-    periodoGracia: yup.string().required('Ingrese un período de gracia'),
+    gracePeriodType: yup.string().required('Ingrese un tipo de periodo de gracia'),
+    gracePeriod: yup.string().required('Ingrese un período de gracia'),
     monthlyCommission: yup.string().required('Ingrese una comisión mensual'),
     deadlineReturn: yup.string().required('Ingrese un plazo para la devolución'),
     name: yup.string().required('Ingrese un nombre'),
@@ -53,8 +52,7 @@ const InstrumentationStepThree = () => {
         }
 
         (async () => {
-            await sleep(1e3); // For demo purposes.
-
+            await sleep(1e3);
             if (active) {
                 createAPIEndpoint(ENDPOINTS.bankEntity).fetchBranches('64b1892b9c2c3b03c33a736f'
                     ,
@@ -87,12 +85,11 @@ const InstrumentationStepThree = () => {
     } = useForm({
         resolver: yupResolver(validationSchema),
         defaultValues: {
-            identificationNumber: '',
             loanType: '',
             amount: '',
             branchId: '',
-            tipoPeriodoGracia: '',
-            periodoGracia: '',
+            gracePeriodType: '',
+            gracePeriod: '',
             monthlyCommission: '',
             name: '',
             deadlineReturn: '',
@@ -102,10 +99,6 @@ const InstrumentationStepThree = () => {
     const onSubmit = (data) => {
         console.log("DATA --> ", data);
 
-    };
-
-    const handleNextStep = () => {
-        navigate("/prestamos/step2");
     };
 
     return (
@@ -138,7 +131,6 @@ const InstrumentationStepThree = () => {
                                 }
                                 isOptionEqualToValue={(option, value) => option.uniqueKey === value?.uniqueKey}
                                 getOptionLabel={(option) => option.name || ''}
-
                                 options={options}
                                 loading={loading}
                                 loadingText={"Cargando Sucursales..."}
@@ -161,6 +153,7 @@ const InstrumentationStepThree = () => {
                                                     <Business />
                                                 </InputAdornment>
                                             ),
+                                            style: { textAlign: 'left' },
                                         }}
                                         error={Boolean(errors.branchId)}
                                         helperText={errors.branchId?.message}
@@ -176,11 +169,11 @@ const InstrumentationStepThree = () => {
                     <TextField
                         fullWidth
                         type="text"
-                        id="tipoPeriodoGracia"
+                        id="gracePeriodType"
                         label="Tipo de Periodo de Gracia"
-                        {...register("tipoPeriodoGracia")}
-                        error={Boolean(errors.tipoPeriodoGracia)}
-                        helperText={errors.tipoPeriodoGracia?.message}
+                        {...register("gracePeriodType")}
+                        error={Boolean(errors.gracePeriodType)}
+                        helperText={errors.gracePeriodType?.message}
                         inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
@@ -196,14 +189,15 @@ const InstrumentationStepThree = () => {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={4}>
                     <Controller
-                        name="typeDocumentId"
+                        name="loanType"
                         control={control}
                         render={({ field }) => (
                             <TextField
                                 {...field}
                                 fullWidth
                                 select // tell TextField to render select
-                                label="Tipo de préstamos"
+                                label="Tipo de préstamo"
+                                {...register("loanType")}
                                 error={Boolean(errors.loanType)}
                                 helperText={errors.loanType?.message}
                             >
@@ -221,11 +215,11 @@ const InstrumentationStepThree = () => {
                     <TextField
                         fullWidth
                         type="text"
-                        id="periodoGracia"
+                        id="gracePeriod"
                         label="Período de gracia (meses)"
-                        {...register("periodoGracia")}
-                        error={Boolean(errors.periodoGracia)}
-                        helperText={errors.periodoGracia?.message}
+                        {...register("gracePeriod")}
+                        error={Boolean(errors.gracePeriod)}
+                        helperText={errors.gracePeriod?.message}
                         inputProps={{ style: { textAlign: 'left' } }}
                         InputProps={{
                             startAdornment: (
