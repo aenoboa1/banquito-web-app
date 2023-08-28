@@ -29,8 +29,10 @@ const InstrumentationStepTwo = () => {
     const [identificationNumber, setIdentificationNumber] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [clientInfo, setClientInfo] = useState([]);
-    const [infoAccount, setInfoAccount] = useState('');
-    const [infoClientAccount, setInfoClientAccount] = useState('');
+    const [infoAccount, setInfoAccount] = useState(null);
+    const [infoClientAccount, setInfoClientAccount] = useState(null);
+    const [flagAccount, setFlagAccount] = useState(true);
+    const [flagClientNat, setFlagClientNat] = useState(true);
 
     const typeClients = [
         { value: 'CUS', label: 'Naturales' },
@@ -73,10 +75,12 @@ const InstrumentationStepTwo = () => {
             .then((res) => {
                 console.log(res.data);
                 setClientInfo(res.data);
+                setFlagClientNat(true);
             })
             .catch((error) => {
                 console.error(error);
                 setClientInfo([]);
+                setFlagClientNat(false);
                 return [];
             });
     };
@@ -89,10 +93,13 @@ const InstrumentationStepTwo = () => {
                 console.log("Info Cliente", res.data.clientAccount);
                 setInfoAccount(res.data);
                 setInfoClientAccount(res.data.clientAccount);
+                setFlagAccount(true);
             })
             .catch((error) => {
                 console.error(error);
                 setInfoAccount(null);
+                setInfoClientAccount(null);
+                setFlagAccount(false);
                 return [];
             });
     };
@@ -142,11 +149,11 @@ const InstrumentationStepTwo = () => {
                 </Grid>
                 <Grid item xs={8}>
                     {
-                        (infoAccount && infoClientAccount) && (
+                        (infoAccount != null && infoClientAccount != null) ? (
                             <SoftTypography variant="h5" component="div" align='center'>
                                 Cuenta Encontrado
                             </SoftTypography>
-                        )
+                        ) : (<></>)
                     }
                 </Grid>
 
@@ -164,7 +171,7 @@ const InstrumentationStepTwo = () => {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={8}>
                     {
-                        (infoAccount && infoClientAccount) && (
+                        infoAccount === null && infoClientAccount === null && !flagAccount ? (
                             <Grid container style={{ position: 'relative' }}>
                                 <Grid item xs={12} sm={4} lg={12} xl={8}
                                     style={{ position: 'absolute', top: -40, left: "30%", padding: '10px', zIndex: 1 }}>
@@ -173,33 +180,50 @@ const InstrumentationStepTwo = () => {
                                             <Grid item xs={8} md={8}>
                                                 <SoftTypography component="span" fontWeight="light"
                                                     fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
-                                                    <strong>Nombre y Apellido:</strong> {infoClientAccount.firstName} {infoClientAccount.lastName} <br />
+                                                    <strong>No existe la cuenta</strong><br />
                                                 </SoftTypography>
-                                                <SoftTypography component="span" fontWeight="light"
-                                                    fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
-                                                    <strong>Email:</strong> {infoClientAccount.emailAddress} <br />
-                                                </SoftTypography>
-                                                <Box display="flex" flexDirection="column" gap={2} py={0}>
-                                                    <Grid container spacing={1}>
-                                                        <Grid item xs={6} md={10}>
-                                                            <SoftTypography component="span" fontWeight="bold" fontSize="14px">
-                                                                Saldo disponible:
-                                                            </SoftTypography>
-                                                        </Grid>
-                                                        <Grid item xs={6} md={1}>
-                                                            <SoftTypography component="span" fontWeight="light" fontSize="14px">
-                                                                ${infoAccount.totalBalance}
-                                                            </SoftTypography>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Box>
                                             </Grid>
                                         </Grid>
                                     </SoftBox>
                                 </Grid>
                             </Grid>
-                        )
-                    }
+                        ) : (
+                            infoAccount !== null && infoClientAccount !== null ? (
+                                <Grid container style={{ position: 'relative' }}>
+                                    <Grid item xs={12} sm={4} lg={12} xl={8}
+                                        style={{ position: 'absolute', top: -40, left: "30%", padding: '10px', zIndex: 1 }}>
+                                        <SoftBox p={2} borderRadius="10%" shadow={"sm"}>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={8} md={8}>
+                                                    <SoftTypography component="span" fontWeight="light"
+                                                        fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                        <strong>Nombre y Apellido:</strong> {infoClientAccount.firstName} {infoClientAccount.lastName} <br />
+                                                    </SoftTypography>
+                                                    <SoftTypography component="span" fontWeight="light"
+                                                        fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                        <strong>Email:</strong> {infoClientAccount.emailAddress} <br />
+                                                    </SoftTypography>
+                                                    <Box display="flex" flexDirection="column" gap={2} py={0}>
+                                                        <Grid container spacing={1}>
+                                                            <Grid item xs={6} md={10}>
+                                                                <SoftTypography component="span" fontWeight="bold" fontSize="14px">
+                                                                    Saldo disponible:
+                                                                </SoftTypography>
+                                                            </Grid>
+                                                            <Grid item xs={6} md={1}>
+                                                                <SoftTypography component="span" fontWeight="light" fontSize="14px">
+                                                                    ${infoAccount.totalBalance}
+                                                                </SoftTypography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Box>
+                                                </Grid>
+                                            </Grid>
+                                        </SoftBox>
+                                    </Grid>
+                                </Grid>
+                            ) : <></>
+                        )}
                 </Grid>
 
                 <Grid item xs={12}></Grid>
@@ -238,12 +262,14 @@ const InstrumentationStepTwo = () => {
                 </Grid>
                 <Grid item xs={8}>
                     {
-                        clientInfo.length > 0 && (
-                            <SoftTypography variant="h5" component="div" align='center'>
-                                Usuario Encontrado
-                            </SoftTypography>
-                        )
-                    }
+                        clientInfo.length === 0 && !flagClientNat ? (<></>
+                        ) : (
+                            clientInfo.length != 0 ? (
+                                <SoftTypography variant="h5" component="div" align='center'>
+                                    Usuario Encontrado
+                                </SoftTypography>
+                            ) : (<></>)
+                        )}
                 </Grid>
 
 
@@ -286,7 +312,7 @@ const InstrumentationStepTwo = () => {
                 </Grid>
                 <Grid item xs={8}>
                     {
-                        clientInfo.length > 0 && (
+                        clientInfo.length === 0 && !flagClientNat ? (
                             <Grid container style={{ position: 'relative' }}>
                                 <Grid item xs={12} sm={4} lg={12} xl={8}
                                     style={{ position: 'absolute', top: -30, left: "30%", padding: '10px', zIndex: 1 }}>
@@ -295,21 +321,39 @@ const InstrumentationStepTwo = () => {
                                             <Grid item xs={8} md={8}>
                                                 <SoftTypography component="span" fontWeight="light"
                                                     fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
-                                                    <strong>Nombre y Apellido:</strong> {clientInfo[0].firstName} {clientInfo[0].lastName} <br />
-                                                </SoftTypography>
-                                                <SoftTypography component="span" fontWeight="light"
-                                                    fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
-                                                    <strong>Email:</strong> {clientInfo[0].emailAddress} <br />
-                                                </SoftTypography>
-                                                <SoftTypography component="span" fontWeight="light"
-                                                    fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
-                                                    <strong>Género:</strong> {clientInfo[0].gender === 'M' ? 'Masculino' : 'Femenino'}
+                                                    <strong>No existe el cliente</strong><br />
                                                 </SoftTypography>
                                             </Grid>
                                         </Grid>
                                     </SoftBox>
                                 </Grid>
                             </Grid>
+                        ) : (
+                            clientInfo.length != 0 ? (
+                                <Grid container style={{ position: 'relative' }}>
+                                    <Grid item xs={12} sm={4} lg={12} xl={8}
+                                        style={{ position: 'absolute', top: -30, left: "30%", padding: '10px', zIndex: 1 }}>
+                                        <SoftBox p={3} borderRadius="10%" shadow={"sm"}>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={8} md={8}>
+                                                    <SoftTypography component="span" fontWeight="light"
+                                                        fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                        <strong>Nombre y Apellido:</strong> {clientInfo[0].firstName} {clientInfo[0].lastName} <br />
+                                                    </SoftTypography>
+                                                    <SoftTypography component="span" fontWeight="light"
+                                                        fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                        <strong>Email:</strong> {clientInfo[0].emailAddress} <br />
+                                                    </SoftTypography>
+                                                    <SoftTypography component="span" fontWeight="light"
+                                                        fontSize="14px" style={{ whiteSpace: 'nowrap' }}>
+                                                        <strong>Género:</strong> {clientInfo[0].gender === 'M' ? 'Masculino' : 'Femenino'}
+                                                    </SoftTypography>
+                                                </Grid>
+                                            </Grid>
+                                        </SoftBox>
+                                    </Grid>
+                                </Grid>
+                            ) : <></>
                         )}
                 </Grid>
 

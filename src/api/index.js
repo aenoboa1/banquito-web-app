@@ -6,7 +6,7 @@ export const BASE_URL_DEPOSIT = 'https://64b6cddfdf0839c97e1625e9.mockapi.io/dep
 
 export const BASE_ADMIN_URL = 'https://banquito-ws-gestion-admin-ntsumodxxq-uc.a.run.app/api/v1/';
 export const CLIENTS_URL = 'https://banquito-ws-clientes-ntsumodxxq-uc.a.run.app/api/v1/';
-export const REQUIREMENTS_URL = 'http://localhost:8080/api/v1/requirements/';
+export const REQUIREMENTS_URL = 'https://banquito-ws-prestamos-ntsumodxxq-uc.a.run.app/api/v1/';
 export const ACCOUNTS_URL = 'https://banquito-ws-cuentas-ntsumodxxq-uc.a.run.app/api/v1/';
 
 
