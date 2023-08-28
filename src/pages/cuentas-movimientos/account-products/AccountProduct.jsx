@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Divider, Typography} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
-import {AccountProductService} from "../service/AccountProductService";
-import Grid from "@mui/material/Grid";
+import { AccountBalanceWallet } from "@mui/icons-material";
+import { Button, Divider, Typography } from '@mui/material';
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SoftBox from "../../../components/SoftBox";
 import SoftButton from "../../../components/SoftButton";
-import {AccountBalanceWallet} from "@mui/icons-material";
 import SoftTypography from "../../../components/SoftTypography";
+import useStateContext from '../../../hooks/useStateContext';
+import { AccountProductService } from "../service/AccountProductService";
 
 export const AccountProduct = () => {
 
@@ -18,10 +19,16 @@ export const AccountProduct = () => {
     const [data, setData] = useState({data: []});
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false)
-
+    //obteniendo token guardado en context
+    const {context} = useStateContext();
+    const token = context.token;
+    // Configuración del encabezado con el token
+    const headers = {
+    Authorization: `Bearer ${token}`,
+    };
 
     useEffect(() => {
-        AccountProductService.getAccountProducts().then((data) => {
+    AccountProductService.getAccountProducts(headers).then((data) => {
             setProducts(data);
         });
     }, []);
