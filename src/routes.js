@@ -39,13 +39,15 @@
 import Movimientos from "pages/cuentas-movimientos";
 import CreditCard from "examples/Icons/CreditCard";
 import Prestamos from "./pages/solicitud-prestamos";
-import {Money, PointOfSale, Portrait} from "@mui/icons-material";
+import { Money, PointOfSale, Portrait } from "@mui/icons-material";
 import SimuladorPrestamos from "./pages/simulador-prestamos";
 import Transferencias from "pages/transacciones-transferencias";
 import SignIn from "./pages/login/sign-in";
 import SignUp from "./pages/login/sign-up";
 import TransactionsDetail from "./pages/cuentas-movimientos/account-details";
 import { ConfirmTransfer } from "pages/transacciones-transferencias/components/ConfirmTransfer";
+import InstrumentationStep2 from "pages/solicitud-prestamos/instrumentation-step2";
+import InstrumentationStep3 from "pages/solicitud-prestamos/instrumentation-step3";
 
 const routes = [
     {
@@ -53,8 +55,8 @@ const routes = [
         name: "Cuentas",
         key: "cuentas",
         route: "/cuentas",
-        icon: <CreditCard size="12px"/>,
-        component: <Movimientos/>,
+        icon: <CreditCard size="12px" />,
+        component: <Movimientos />,
         noCollapse: true,
     },
     {
@@ -62,8 +64,8 @@ const routes = [
         name: "Solicitud Prestamos",
         key: "prestamos",
         route: "/prestamos",
-        icon: <Money size="12px"/>,
-        component: <Prestamos/>,
+        icon: <Money size="12px" />,
+        component: <Prestamos />,
         noCollapse: true,
     },
     {
@@ -71,8 +73,8 @@ const routes = [
         name: "Simulador Prestamos",
         key: "simulador",
         route: "/simulador",
-        icon: <PointOfSale size="12px"/>,
-        component: <SimuladorPrestamos/>,
+        icon: <PointOfSale size="12px" />,
+        component: <SimuladorPrestamos />,
         noCollapse: true,
     },
     {
@@ -80,36 +82,34 @@ const routes = [
         name: "Transacciones",
         key: "transacciones",
         route: "/transacciones",
-        icon: <PointOfSale size="12px"/>,
-        component: <Transferencias/>,
+        icon: <PointOfSale size="12px" />,
+        component: <Transferencias />,
         noCollapse: true,
     },
-    {
-        type: "collapse",
-        name: "Mi Perfil",
-        key: "profile",
-        route: "/profile",
-        icon: <Portrait size="12px"/>,
-        component: <Transferencias/>,
-        noCollapse: true,
-    },
-
     {
         route: "/cuentas/detail",
-        component: <TransactionsDetail/>,
+        component: <TransactionsDetail />,
     },
     {
         route: "/authentication/sign-in",
-        component: <SignIn/>,
+        component: <SignIn />,
     },
     {
         route: "/authentication/sign-up",
-        component: <SignUp/>,
+        component: <SignUp />,
     },
     {
         route: '/transferenciasConfirm',
-        component: <ConfirmTransfer/>,
+        component: <ConfirmTransfer />,
     },
+    {
+        route: "/prestamos/step2",
+        component: <InstrumentationStep2 />
+    },
+    {
+        route: "/prestamos/step3",
+        component: <InstrumentationStep3 />
+    }
 
 
 

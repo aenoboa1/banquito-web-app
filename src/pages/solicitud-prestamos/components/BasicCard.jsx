@@ -1,4 +1,4 @@
-import '../css/styles.css';
+
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { GuarantorModal } from './GuarantorModal';
@@ -9,11 +9,16 @@ import { Confirm } from './Confirm';
 
 export default function BasicCard() {
 
-	const tiposDocumento = [
+	const tiposDocumentoNat = [
 		{ key: 'CI', value: 'CI' },
 		{ key: 'PASS', value: 'Pasaporte' },
 		{ key: 'RUC', value: 'RUC' },
 	];
+	
+	const tiposDocumentoJur = [
+		{ key: 'RUC', value: 'RUC' },
+	];
+
 	const tiposPrestamo = [
 		{ key: 'CUS', value: 'Personal' },
 		{ key: 'CRE', value: 'Crédito' },
@@ -221,7 +226,7 @@ export default function BasicCard() {
 								>
 									<option value="" style={{ marginLeft: '1rem' }}>
 										Seleccionar el tipo de documento</option>
-									{tiposDocumento.map((tipo) => (
+									{tiposDocumentoNat.map((tipo) => (
 										<option key={tipo.key} value={tipo.value}>
 											{tipo.value}
 										</option>
